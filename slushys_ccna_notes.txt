@@ -304,9 +304,44 @@ PortFast is said to enable "edge ports".
 Edge port: port at the edge of a network that connects to end devices; these types of ports are eligible for PortFast. Edge ports are considered safe for PortFast because they are not expected to create loops in the network. 
 
 -Describe Cisco Wireless Architectures and AP modes? 
-[placeholder]
+Cisco offers many WIRELESS ARCHITECTURES to meet the needs of their clients: Autonomous, Centralized, Cloud-based, Converged access.
+
+Autonomous: Each AP operates independently and is configured individually, suitable for small to medium-sized networks. Initial configuration is easy, but not very scalable.
+
+Centralized: More scalable and manageable; all APIs are managed by a central controller, with features such as seamless roaming, load balancing, and centralized security policies. Cisco WLCs are a key component here.
+
+Cloud-based: Cisco offers cloud-managed wireless solutions through Meraki, a company they acquired. APs are managed through a cloud-based dashboard; which simplifies network management, monitoring, and control. Meraki APs are often used for this.
+
+Converged access: integrates wired and wireless networks, which makes it easier to manage and renders a consistent experience in both connection types.
+
+ACCESS POINT modes: local, FlexConnect, Mesh, Monitor, Rogue detector, sniffer, Office Extend; these are operational modes.
+
+Local: AP operates as a standalone device and is managed individually, common in autonomous architectures.
+
+FlexConnect: the AP can switch between operating autonomously and being managed by a central controller (WLC), useful for branch office deployments and scenarios where WAN link stability is a concern. 
+
+Mesh: Cisco APs can operate as mesh APs to provide wireless connectivity in areas where laying Ethernet cables may not be possible. Mesh APs form a wireless *backhaul network* to connect with the wired network through other APs.
+
+Backhaul network: the portion of a telecomms network that connects the core or backbone network to the subnetworks or access networks. It plays a crucial role in transporting data, voice, and other comms traffic from local APs (e.g. cell towers), Wi-Fi APs, or remote offices, back to a central/core location where it can be routed to its destination.
+
+Monitor: used for scanning and monitoring wireless traffic without participating in data forwarding, useful for troubleshooting and analyzing network performance.
+
+Rogue detector: APs in this mode continuously scan for rogue APs and clients, identifying threats and unauthorized devices on the network.
+
+Sniffer: allows APs to capture and analyze wireless frames for troubleshooting and monitoring.
+
+OfficeExtend: enables remote workers to securely connect to the corporate network by extending the wireless network to their home or remote locations.
 
 -Describe physical infrastructure connections of WLAN components (AP, WLC, access/trunk ports, LAG)?
+Cisco APs typically use PoE, they can be connected to PoE-capable switches or PoE injectors; they are also connected to the network via Ethernet cables, with usually an RJ45 connector. The AP is connected to a network switch, which can in turn be configured as an access or trunk port.
+
+WLCs are used to manage and control multiple APs in a centralized manner, they are connected to the network. WLCs are connected to the network using Ethernet cables, typically via switches with access ports that are part of the same VLAN as the APs.
+
+Access ports are used to connect APs and WLCs to the network. APs are usually configured to belong to a specific VLAN, and the connected devices (APs, WLCs) are assigned to this VLAN for their data traffic. 
+
+Trunk ports are used when multiple VLANs need to be carried over a single switchport. WLCs often use trunk ports to manage multiple VLANs for various SSIDs and user groups.
+
+LAG is Link Aggregation Group, AKA EtherChannels or Port Channels. These are used to combine multiple physical Ethernet connections into a single logical connection. Example use case: you can configure a LAG between a WLC and a switch to ensure that if one physical link fails, the other can continue carrying traffic without interruption.
 
 -Describe AP and WLC management access connections (Telnet, SSH, HTTP, HTTPS, console, and TACACS+/RADIUS)?
 
