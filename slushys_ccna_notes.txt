@@ -344,14 +344,36 @@ Trunk ports are used when multiple VLANs need to be carried over a single switch
 LAG is Link Aggregation Group, AKA EtherChannels or Port Channels. These are used to combine multiple physical Ethernet connections into a single logical connection. Example use case: you can configure a LAG between a WLC and a switch to ensure that if one physical link fails, the other can continue carrying traffic without interruption.
 
 -Describe AP and WLC management access connections (Telnet, SSH, HTTP, HTTPS, console, and TACACS+/RADIUS)?
+Telnet: Cisco APs can be accessed and managed using Telnet, however this is not recommended as Telnet transmits all data in plaintext. Cisco WLCs may also support Telnet, but again it is not recommended.
+
+SSH: Cisco APs can be accessed securely using SSH, which unlike Telnet does use encryption; commonly used for configuration and troubleshooting. Cisco WLCs also support SSH, which is the recommended method for accessing them. 
+
+HTTP: some Cisco APs may provide a web-based management interface using HTTP, which allows admins to configure and monitor APs through a web browser. However, this is not recommended as HTTP traffic is unencrypted. Cisco WLCs also offer a web-based management interface, but again using HTTP is not recommended.
+
+HTTPS: unlike HTTP, HTTPS is encrypted and ergo it is the recommended protocol for web-based AP and WLC configuration and management.
+
+Console: serial or USB; Cisco APs can be configured and managed via the physical console port. In some models, a USB console port may also be available. Cisco WLCs can also be accessed via their physical console ports.
+
+TACACS+/RADIUS: Cisco APs and WLCs can be configured to use TACACS+ or RADIUS for centralized authentication, authorization, and accounting.
 
 -Interpret the wireless LAN GUI configuration for client connectivity, such as WLAN creation, security settings, QoS profiles, and advanced settings?
+
+WLAN creation: SSID, encryption protocol (WPA2, WPA3, PSK, Enterprise), VLAN assignment.
+
+Security settings: authentication (PSK, 802.1x), encryption (AES), RADIUS/TACACS+ integration, Guest access (separate WLAN with captive portal and/or authentication). 
+
+QoS profiles: define QoS profiles to prioritize certain types of traffic (e.g. VoIP, video) over the WLAN to ensure their corresponding apps get enough bandwidth and low latency. You can also assign DSCP (Differentiated Services Code Point) values to packets to indicate their priority and influence how routers and switches treat them.
+
+Advanced settings: band selection (2.4 or 5 GHz, *band steering*), channel selection (or auto-channel selection), roaming (seamless client), power and transmit settings (important in high-density environments), client isolation (restricts clients from communicating with each other), captive portal, load balancing (distribute clients among multiple APs), rate limiting (set maximum data rates for the WLAN, prevents bandwidth hogging).
+
+Band steering: technique used in WLANs to encourage client devices to connect to the most appropriate frequency band, typically 5 GHz over 2.4 GHz. 
 
 IP CONNECTIVITY
 
 INTERPRET THE COMPONENTS OF ROUTING TABLE
 
 -Routing protocol code?
+AKA 'routing protocol identifier' or 'route type', a numeric or alphanumeric code used in a routing table to identify the source or method by which a specific route was learned. Routing protocol codes vary depending on the routing protocol and the device or OS in use. 
 
 -Prefix?
 
