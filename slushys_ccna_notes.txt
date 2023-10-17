@@ -375,11 +375,20 @@ INTERPRET THE COMPONENTS OF ROUTING TABLE
 -Routing protocol code?
 AKA 'routing protocol identifier' or 'route type', a numeric or alphanumeric code used in a routing table to identify the source or method by which a specific route was learned. Routing protocol codes vary depending on the routing protocol and the device or OS in use. 
 
+Examples: C means Connected, a network or host directly connected to the router; these routes are automatically added to routing table and have the most specific prefix length. S means static, these are manually configured by the netadmin rather than via dynamic routing protocols. R means RIP, these are routes that were added by way thereof. D means EIGRP, which is a Cisco proprietary DRP. O means OSPF, B means BGP, H means HSRP, etc.
+
 -Prefix?
+A network or subnet represented by an IP address and a subnet mask (i.e. prefix length). Defines a range of IP addresses that share a common networking or routing destination. Routing tables use prefixes to determine where to forward packets. The longer the subnet mask / prefix, the more specific the route is, which causes the router to favor that route over routes with shorter prefixes (because they are less specific, and ergo less accurate). Routing tables consist of multiple entries/routes, each with a prefix and associated information, e.g. next hop, outgoing interface, routing protocol, etc.
 
 -Network mask?
+AKA subnet mask, this is a value that when combined with the IP host address will render the IP network address to which the host belongs. Like IP addresses, it can be expressed bitwise or in decimal notation. If you are performing calculations with it, generally bitwise notation is recommended. 
+
+There is a lot more to subnet masks than I've explained above, and it is necessary to get hands-on experience with them; including subnetting, calculating IP network addresses using the IP host address, etc. But that is beyond the scope of this study guide. 
 
 -Next hop?
+This part of the routing table denotes the next hop the packet will be sent to as part of a particular route. The next hop can be expressed as an IP address or an exit interface on the local router.
+
+Example: your LAN's edge router in your SOHO network will probably have your ISP router as its next hop, specifically the interface on the ISP router that faces your network. 
 
 -Administrative distance?
 
