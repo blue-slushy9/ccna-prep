@@ -391,16 +391,18 @@ This part of the routing table denotes the next hop the packet will be sent to a
 Example: your LAN's edge router in your SOHO network will probably have your ISP router as its next hop, specifically the interface on the ISP router that faces your network. 
 
 -Administrative distance?
-A numeric metric found in routing tables that denotes the trustworthiness of a particular routing table entry. A value of 0, which corresponds to a directly connected network, is the most reliable; whereas a positive number denotes a less reliable entry, with the less reliable entries being the furthest from 0. There are no negative values when it comes to administrative distance, the usual range of values is from 0 to 255. 
+A numeric metric found in routing tables that denotes the trustworthiness of a particular routing table entry. A value of 0, which corresponds to a directly connected network, is the most reliable; whereas a positive number denotes a less reliable entry, with the less reliable entries being the furthest from 0. There are no negative values when it comes to administrative distance, the usual range of values is from 0 to 255. Administrative distances can be manually entered or reconfigured by netadmins.
 
 0: directly connected network;
 1: static route, i.e. entered manually by admin;
 2-100: typically IGPs (Interior Gateway Protocols), such as OSPF and EIGRP, have values in this range;
-101-200: typically EGPs (Exterior Gateway Protocols), such as BGP, have values in this range;
+101-200: typically EGPs (Exterior Gateway Protocols), such as BGP, have values in this range; 
 
 -Metric?
+Numerical value assigned to each route that indicates the cost or distance associated with using that route. Metrics are used by routers and routing protocols to determine the most favorable or efficient path to reach a particular destination. The value of the metric can vary depending on the routing protocol used, e.g. some protocols use hop count while others use a more complex and holistic analysis that includes bandwidth, delay, reliability, etc. 
 
 -Gateway of last resort?
+
 
 DETERMINE HOW A ROUTER MAKES A FORWARDING DECISION BY DEFAULT
 
