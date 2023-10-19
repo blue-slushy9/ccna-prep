@@ -399,24 +399,57 @@ A numeric metric found in routing tables that denotes the trustworthiness of a p
 101-200: typically EGPs (Exterior Gateway Protocols), such as BGP, have values in this range; 
 
 -Metric?
-Numerical value assigned to each route that indicates the cost or distance associated with using that route. Metrics are used by routers and routing protocols to determine the most favorable or efficient path to reach a particular destination. The value of the metric can vary depending on the routing protocol used, e.g. some protocols use hop count while others use a more complex and holistic analysis that includes bandwidth, delay, reliability, etc. 
+Numerical value assigned to each route that indicates the cost or distance associated with using that route. Metrics are used by routers and routing protocols to determine the most favorable or efficient path to reach a particular destination. The value of the metric can vary depending on the routing protocol used, e.g. some protocols use hop count while others use a more complex and holistic analysis that includes bandwidth, delay, reliability, etc. Netadmins can sometimes manually adjust cost values and/or the metric to influence routing decisions.
+
+RIP: hop count;
+OSPF: link cost;
+EIGRP: combination of factors;
+BGP: path attributes;
+
+METRIC IS NOT THE SAME THING AS ADMINISTRATIVE DISTANCE! Metric quantifies the "cost" of using a particular route, whereas AD is a measure of the reliability/trustworthiness of a routing table entry.
 
 -Gateway of last resort?
-
+AKA default route, which is used as a last resort in case the router cannot find any other routes in its routing table. The default route is expressed as 0.0.0.0/0, which means that it is capable of matching any destination address. However, it is not usually the *best match*, which is what a router always looks for in its entire routing table before selecting a route. The gateway of last resort is typically set as the default gateway of the router. It is the router's exit point for traffic destined to any network not listed in the routing table. It is commonly used to provide an internet connection to for devices on a LAN. The default route can be configured as a static route or learned via a dynamic routing protocol; if the latter, the default route can be learned from a neighboring router that serves as the exit point to external networks. In high-availability and redundant network configurations, multiple routers may be configured with a gateway of last resort to ensure traffic can be rerouted as needed.
 
 DETERMINE HOW A ROUTER MAKES A FORWARDING DECISION BY DEFAULT
 
 -Longest prefix match?
+AKA IP network address, the network portion of a host's IP address. Routers scan their routing tables for the entry with the highest possible number of network bits that match the destination's network IP. This is because the destination network's router will be handling the intranet packet transmission anyway, so we don't need to worry about reaching the destination host per se.
+
+Routing table entries are stored in a hierarchical fashion, with the most specific entries at the top and less specific entries at the bottom. 
 
 -Administrative distance?
+AD is a measure of the trustworthiness/reliability of any given routing table entry, with 0 being the most trustworthy. Routers will select the most trustworthy routes by default, depending on other factors (prefix match, metric, etc.). If two matching routes with the same AD value are in the table, the router may decide to use both of them for load balancing (again, this depends on other factors). 
 
 -Routing protocol metric?
+The routing protocol metric is a value used to denote the "cost" of a particular route. Example: RIP is a protocol that uses hop count as its metric, so multiple matching RIP routes in a routing table will have different metric values based on their respective hop counts; in this scenario, the router will most likely select the RIP route with the lowest number of hop counts. In cases where multiple routes have the same routing metric, the router may decide to use them all for load balancing.
 
 CONFIGURE AND VERIFY IPv4 AND IPv6 METRIC?
 
 -Default route?
 
+Configure default route:
+1. Enter privileged exec mode by running "enable";
+2. Enter global configuration mode by running "configure terminal";
+3. Configure the default route by running "ip route 0.0.0.0 0.0.0.0 [next-hop IP address]"; alternatively, you can specify an exit interface instead of the next-hop IP;
+4. Exit global configuration mode by running "end";
+5. Save the configuration to ensure it persists after rebooting by running "write memory";
+
+Verify default route:
+1. Run the command "show ip route";
+2. To view information about the default route specifically, you can run "show ip route 0.0.0.0";
+3. You can perform a ping test to an external IP (e.g. the Google DNS servers) to verify the default route works;
+
 -Network route?
+
+Configure network route:
+1. Enter privileged exec mode by running "enable";
+2. Enter global configuration mode by running "configure terminal";
+3. Run the command "ip route [destination-network] [subnet-mask] [next-hop-IP]"; example: "ip route 192.168.2.0 255.255.255.0 10.0.0.1";
+4. Exit configuration mode by running "end";
+5. Save the configuration by running "write memory";
+
+Verify network route:
 
 -Host route?
 
