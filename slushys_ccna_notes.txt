@@ -470,21 +470,94 @@ Verify host route:
 3. Run a ping test with the destination IP of the host;
 
 -Floating static?
-A static route configured with higher administrative distance than other routes in the routing table. It is often used as a backup or failover route, which the router will use only if its other routes (static or dynamic) are not available. When a floating static route is configured, it is given a much higher AD than standard static routes, which usually have an AD of 1; this makes the floating route less preferred than the other static routes, and even many dynamic routes. In other words, floating static routes are there to provide failover 
+A static route configured with higher administrative distance than other routes in the routing table. It is often used as a backup or failover route, which the router will use only if its other routes (static or dynamic) are not available. When a floating static route is configured, it is given a much higher AD than standard static routes, which usually have an AD of 1; this makes the floating route less preferred than the other static routes, and even many dynamic routes. In other words, floating static routes are there to provide failover and redundancy. A floating static route is configured manually by the netadmins. Floating static routes can also be integrated with dynamic routing protocols, e.g. you can configure a FSR to be used in the case that an OSPF or BGP route becomes unavailable. 
 
 Configure floating static route:
+1. Enter privileged exec mode by running "enable";
+2. Enter global configuration mode by running "configure terminal";
+3. Run the command "ip route [destination-network] [subnet-mask] [next-hop-IP] [AD]"; Example: "ip route 0.0.0.0 0.0.0.0 10.0.0.2 200";
+4. Exit configuration mode by running "end";
+5. Save the configuration by running "write memory";
 
 Verify floating static route:
+1. You can run "show ip route";
+2. You can also view details about the FSR specifically by running "show ip route [destination-network]";
+3. Run a ping test to the destination IP address;
 
 CONFIGURE AND VERIFY SINGLE AREA OSPFv2
 
 -Neighbor adjacencies?
+NAs are the relationships between OSPF routers within the same OSPF area. These NAs are established to exchange routing information, e.g. link-state advertisements (LSAs), and to sync their link-state databases. Single-area OSPFv2 networks have all routers operating within a single OSPF area (Area 0 or a non-zero area). 
+
+OSPF routers use the OSPF Hello Protocol to discover and establish neighbor adjacencies. This protocol allows routers to find potential OSPF neighbors on their directly connected networks. When OSPF routers on the same network segment receive OSPF Hello packets from each other, they consider each other as potential neighbors. To actually become neighbors, they must meet specific criteria, e.g. matching area ID, network type, and authentication.
+
+OSPF entails different states the routers must go through during the neighbor adjacency establishment process: Down, Attempt, Init, 2-Way, Exstart, Exchange, Loading, and Full. The neighbor adjacency process culminates in the Full state, in which routers can finally begin exchanging routing information. Once the NAs are established, routers can begin exchanging LSAs (containing network topology and routing information) to sync up their link-state databases. 
+
+OSPFv2 supports various network types, e.g. broadcast, point-to-point, non-broadcast multi-access (NBMA), point-to-multipoint, etc.; the Hello Protocol and NA process are simply adapted to the network type.
+
+Configure neighbor adjacencies:
+1. Enter privileged exec mode by running "enable";
+2. Enter global configuration mode by running "configure terminal";
+3. Enable OSPF on the router by running "router ospf [process-ID]" where process-ID is a local identifier on the router for the OSPF process;
+4. Set the router ID for the router by running "router-id [RID]" where RID is a unique IP address within the OSPF routing domain";
+5. Define OSPF areas on the router by running "network [network-ID] [wildcard-mask] area [area-ID]" where network-ID is the network address for the directly connected network, wildcard-mask is the wildcard mask used to match the network, and area-ID is the OSPF area number (0 or otherwise);
+6. Exit global configuration mode by running "end";
+7. Save the configuration by running "write memory";
+
+Verify neighbor adjacencies:
+1. Run the command "show ip ospf neighbor" to view OSPF neighbors and their router IDs, also whether they are in the Full state or not;
+2. Run the command "show ip ospf interface" to view information about OSPF-enabled interfaces, including the designated router (DR) and backup designated router (BDR);
+3. Run the command "show ip route" to view the OSPF routing table, including which routes were learned via OSPF;
+4. Run a ping test with the destination IP(s) of the router's OSPF neighbors;
 
 -Point-to-point?
+PtP connections are a type of network where there are only two routers directly connected to one another, without any intermediary devices in between, e.g. switches. These connections are commonly used for WANs. 
+
+Configure point-to-point connection:
+1. Enter privileged exec mode by running "enable";
+2. Enter global configuration mode by running "configure terminal";
+3. Enable OSPF on the router by running "router ospf [process-ID]" where process-ID is a local identifier on the router for the OSPF process;
+4. Set the router ID for the router by running "router-id [RID]" where RID is a unique IP address within the OSPF routing domain";
+5. Define OSPF areas on the router by running "network [network-ID] [wildcard-mask] area [area-ID]" where network-ID is the network address for the directly connected network, wildcard-mask is the wildcard mask used to match the network, and area-ID is the OSPF area number (0 or otherwise);
+6. Exit global configuration mode by running "end";
+7. Save the configuration by running "write memory";
+
+Verify point-to-point connection:
+1. Run the command "show ip ospf neighbor" to view a list of OSPF neighbors, their states, and router IDs; you can also see whether neighboring routers are in the Full state;
+2. Run the command "show ip ospf interface" to view information about OSPF-enabled interfaces, including the designated router (DR) and backup designated router (BDR); for point-to-point interfaces, you should see the DR and BDR as the same router (usually the other end of the PtP link);
+3. Run the command "show ip route" to view the OSPF routing table, including whether the router has learned routes from its OSPF neighbor(s);
 
 -Broadcast (DR/BDR selection)?
+Broadcast network: a network in which multiple devices or routers are connected to a common network segment and can communicate directly with each other. Can also be thought of as a network that supports broadcast and multicast traffic. Broadcast networks operate at the data link layer of the OSI model, in which devices use MAC addresses and ARP to communicate with one another. Example: ethernet LANs. 
+
+There is a process of selecting a designated router (DR) and a backup designated router (BDR) on multi-access networks (AKA broadcast networks), e.g. ethernet LANs. OSPF uses a specific process to choose these routers on broadcast networks. The DR and BDR are responsible for maintaining OSPF adjacencies with all other routers on the network, while the other routers (DROthers) establish adjacencies only with the DR and BDR; this reduces traffic and overhead on the network. Correctly identifying the network type and configuring the DR/BDR selection process is important for ensuring efficient OSPF operation.
+
+Configure DR/BDR selection:
+1. Enter privileged exec mode by running "enable";
+2. Enter global configuration mode by running "configure terminal";
+3. Enable OSPF on the router by running "router ospf [process-ID]" where process-ID is a local identifier on the router for the OSPF process;
+4. Define OSPF areas on the router by running "network [network-ID] [wildcard-mask] area [area-ID]" where network-ID is the network address for the directly connected network, wildcard-mask is the wildcard mask used to match the network, and area-ID is the OSPF area number (0 or otherwise);
+5. Run the command "ip ospf network broadcast" to specify the network type, in this case a broadcast network;
+6. Exit global configuration mode by running "end";
+7. Save the configuration by running "write memory";
+
+Verify DR/BDR selection:
+1. Run the command "show ip ospf interface" to view information about OSPF-enabled interfaces, including the DR and BDR roles; for broadcast interfaces, you should see these roles assigned; this command will allow you to ensure that OSPF has successfully selected a DR and BDR: the DR manages OSPF comms and the BDR takes over if the DR fails;
 
 -Router ID?
+RID is a unique identifier used to distinguish OSPF routers within an OSPF routing domain. The RID is a 32-bit number, usually represented in dotted-decimal format. 
+
+Configure Router ID:
+1. Enter privileged exec mode by running "enable";
+2. Enter global configuration mode by running "configure terminal";
+3. Enable OSPF on the router by running "router ospf [process-ID]" where process-ID is a local identifier on the router for the OSPF process;
+4. Run the command "router-id [RID]" to set the router ID, where [RID] is a unique IP address within the OSPF routing domain; the RID can be a real interface IP address or any other unique IP address;
+5. Define OSPF areas on the router by running "network [network-ID] [wildcard-mask] area [area-ID]" where [network-ID] is the network address for the area, wildcard-mask is typically 0.0.0.0 for single area OSPFv2, and area-ID is the OSPF area ID (can be 0 [backbone area] or non-zero);
+6. Exit global configuration mode by running "end";
+7. Save the configuration by running "write memory";
+
+Verify Router ID:
+1. Run the command "show ip ospf" 
 
 -Describe the purpose, functions, and concepts of first hop redundancy protocols?
 
