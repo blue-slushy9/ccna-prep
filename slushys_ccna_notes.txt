@@ -450,10 +450,31 @@ Configure network route:
 5. Save the configuration by running "write memory";
 
 Verify network route:
+1. Run the command "show ip route";
+2. To view information about a particular route, you can run the command "show ip route [destination-network]";
+3. Run a ping test with the destination IP of a host within the target network;
 
 -Host route?
+A host route directs traffic to a specific host rather than a target network.
+
+Configure host route:
+1. Enter privileged exec mode by running "enable";
+2. Enter global configuration mode by running "configure terminal";
+3. Run the command "ip route [host-IP] [subnet-mask] [next-hop-IP]"; Example: "ip route 192.168.1.100 255.255.255.255 10.0.0.1";
+4. Exit configuration mode by running "end";
+5. Save the configuration by running "write memory";
+
+Verify host route:
+1. Run the command "show ip route";
+2. To view information about the host route, you can run the command "show ip route [host-ip]";
+3. Run a ping test with the destination IP of the host;
 
 -Floating static?
+A static route configured with higher administrative distance than other routes in the routing table. It is often used as a backup or failover route, which the router will use only if its other routes (static or dynamic) are not available. When a floating static route is configured, it is given a much higher AD than standard static routes, which usually have an AD of 1; this makes the floating route less preferred than the other static routes, and even many dynamic routes. In other words, floating static routes are there to provide failover 
+
+Configure floating static route:
+
+Verify floating static route:
 
 CONFIGURE AND VERIFY SINGLE AREA OSPFv2
 
