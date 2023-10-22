@@ -557,13 +557,44 @@ Configure Router ID:
 7. Save the configuration by running "write memory";
 
 Verify Router ID:
-1. Run the command "show ip ospf" 
+1. Enter privileged exec mode by running "enable";
+2. Run the command "show ip protocols" to view the RID for OSPF; the RID should be included in the output, which may be fairly long;
+3. Run the command "show running-config | section router ospf" to view the OSPF section of the running-config;
 
 -Describe the purpose, functions, and concepts of first hop redundancy protocols?
+A first hop redundancy protocol (FHRP) is a network protocol used to provide high availability and fault tolerance for devices which act as the default gateway for hosts in a subnet; ergo, by "network devices" we mean routers and/or L3 switches. The primary purpose of FHRPs is to ensure that network traffic can continue to flow even if the primary gateway device fails. FHRPs are commonly used in enterprise and/or datacenter environments to prevent network downtime.
+
+FHRPs work by allowing multiple routers/switches to share a single virtual IP and MAC address (so that ARP tables will not need to be updated), so subnet hosts can continue to use that IP even if one of the devices fails. One router/switch gets designated as the active/master router and the others go into standby mode. In some FHRPs, a router election process takes place to determine which router becomes the active router. Typically it's the router with the highest priority and IP address, but other factors may come into play. In GLBP, the assortment of FHRP devices are used for load balancing. 
+
+Preemption is a feature in FHRP that allows a router with a higher priority to take over as the active router if it becomes available after a failure or maintenance. 
+
+Examples: HSRP, VRRP, GLBP.
 
 IP SERVICES
 
 -Configure and verify inside source NAT using static and pools?
+
+Configure static NAT:
+1. Run the command "enable";
+2. Run the command "configure terminal";
+3. Run the command "ip nat inside source static [local-ip] [global-ip]" where local-ip is the address you want to map and global-ip is the outside address to which you want to map;
+4. Run the command "exit";
+5. Run the command "interface [interface-type] [interface-number]";
+6. Run the command "ip nat inside";
+
+Configure pool-based NAT:
+1. "enable";
+2. "configure terminal";
+3. "ip nat pool [pool-name] [start-ip] [end-ip] netmask [subnet-mask] type rotary" (rotary is a pool type);
+4. "exit";
+5. Create an access list to specify which internal hosts are subject to NAT; command is "access-list [acl-number] permit [source-ip] [wildcard-mask]";
+6. Apply NAT using the ACL and NAT pool; command is "ip nat inside source list [acl-number] pool [pool-name]";
+7. Apply NAT to an interface (see static NAT example above for command[s]);
+
+Verify static and pool NAT:
+1. To display NAT translation table, run "show ip nat translations";
+2. To check th configured NAT settings, run "show ip nat statistics";
+3. To confirm the NAT configuration on an interface, run "show ip nat inside [interface-type] [interface-number]";
 
 -Configure and verify NTP operating in a client and server mode?
 
