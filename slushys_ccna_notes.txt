@@ -666,13 +666,108 @@ More about Syslog:
 Flexible configuration, including how log messages are generated, processed, and forwarded. Centralized logging in a central syslog server. Security, including secure log transmission via TLS, SSH, etc. Syslog uses UDP be default, however it can be configured to use TCP as needed. Hierarchical logging is supported, which allows for easy organization and retrieval (example: "facility.severity"). As mentioned above, it is possible to customize log facilities based on the needs of your network. Timestamps are included in messages. Notifications and alerts can be configured for any conceivable network event. Syslog can be integrated with wider monitoring tools. Log rotation actions can be configured to prevent depletion of disk space. Filtering and routing of messages based on their content can also be configured to decide what to do with them.
 
 -Configure and verify DHCP client and relay?
+A DHCP client receives its IP addressing information from a DHCP server, whereas a DHCP relay agent forwards DHCP requests (which are broadcast packets that would otherwise be dropped by the router/switch) from one subnet to another in order for the client to reach the DHCP server. 
 
+Configure DHCP client:
+
+# Enter interface config mode;
+interface [interface-type] [interface-number]
+
+# Enable DHCP on the interface;
+ip address dhcp
+
+# Exit configuration mode;
+exit
+
+# Save the config;
+write memory
+
+Verify DHCP client config:
+
+# Show details about specified interface, including the assigned IP address if DHCP has been successfully configured;
+show interface [interface-type] [interface-number]
+
+# Show brief information about the interface;
+show ip interface brief 
+
+Configure DHCP relay agent:
+
+# Enter global config mode;
+configure terminal
+
+# Specify IP address of DHCP server to which you will forward DHCP requests;
+ip helper-address [DHCP-server-ip]
+
+# Exit config mode;
+exit
+
+# Save the config;
+write memory
+
+Verify DHCP/IP Helper:
+
+# Show IP Helper config;
+show ip helper
+
+You can also check logs or packet captures to verify DHCP requests are being forwarded to the DHCP server.
 
 -Explain the forwarding per-hop behavior (PHB) for QoS, such as classification, marking, queuing, congestion, policing, shaping?
 
+Forwarding Per-Hop Behavior (PHB) is an essential concept in QoS that defines the behavior of routers and switches when forwarding and processing packets based on their Differentiated Services Code Point (DSCP) markings. 
+
+Key components of PHB:
+
+Classification is the process of categorizing packets into different traffic classes based on specific criteria. This is done by examining the packet headers. Once the packets are classed, they can be subjected to different QoS treatments based on their assigned class. 
+
+Marking involves assigning DSCP values to packets as they enter the network. The DSCP values indicate the desired forwarding behavior for the packet. The DSCP field in the IP header is used for this purpose. Packets can be marked at the network edge (i.e. at ingress) based on their classification. 
+
+Queuing involves buffering packets at various points (e.g. interfaces, switches, routers) before being forwarded. QoS mechanisms can be employed to determine how packets are scheduled from these queues, e.g. higher-priority packets may be placed in a low-latency queue and dequeued ahead of lower-priority packets. 
+
+Congestion is managed by QoS by prioritizing certain types of traffic, ensuring high-priority traffic doesn't get dropped during peak traffic periods. Congestion management policies can include weighted fair queuing, random early detection (RED), and other techniques.
+
+Policing involves rate-limiting or controlling the rate at which packets are transmitted into the network. Packets exceeding this rate are dropped or remarked with a lower DSCP value. Policing can be used to enforce traffic profiles and prevent certain classes of traffic from consuming more than their allocated bandwidth.
+
+Shaping smooths the rate at which packets are sent into the network. It can be used to conform traffic to a specific rate or to prevent bursts of traffic from overwhelming the network. Shaping buffers packets and schedules their transmission to match the desired rate. 
+
 -Configure network devices for remote access using SSH?
 
+Configure SSH:
+
+# Enter privileged exec mode;
+enable
+
+# Create local user accounts (privilege level 15 means full access);
+username admin privilege 15 secret [password]
+
+# Generate encryption keys (this command will prompt you for the size of the key modulus, it is recommended to use 2048 bits or higher for security);
+crypto key generate rsa
+
+# Configure SSH parameters;
+ip ssh version 2 # Use SSHv2 for enhanced security;
+ip ssh time-out 120 # Set SSH inactivity timeout (in seconds);
+ip ssh authentication-retries # Limit authentication retries;
+
+# Configure VTY lines;
+line vty 0 4 # Only 5 VTY lines in this case, can be up to 15;
+transport input ssh # Allow SSH access only;
+login local # Use local usernames for authentication;
+
+# Set authentication method (local in this case);
+aaa new-model
+aaa authentication login default local
+
+# Save config;
+write memory
+
+# Test SSH connectivity;
+Use an SSH client (e.g. PuTTY, SecureCRT, or built-in SSH client) to connect to the device.
+
 -Describe the capabilities and functions of TFTP/FTP in the network?
+FTP is File Transfer Protocol, whereas TFTP is Trivial FTP. FTP is a simple protocol for sharing files over a network, often used for transferring configuration (.cfg) files to switches and routers. TFTP is even simpler and more lightweight than FTP. 
+
+Unfortunately neither one of these protocols is very secure, hence the existence of SFTP and/or FTPS, which are integrated with SSL and SSH, respectively. 
+
+TFTP: simple to implement, but does not provide authentication capabilities or user-level access control. Anyone with access to the TFTP server can read or write files. TFTP has minimal overhead, uses UDP for transport. Lacks directory listings and file deletion capabilities. Commonly used
 
 SECURITY FUNDAMENTALS
 
