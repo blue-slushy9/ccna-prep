@@ -765,19 +765,83 @@ Use an SSH client (e.g. PuTTY, SecureCRT, or built-in SSH client) to connect to 
 -Describe the capabilities and functions of TFTP/FTP in the network?
 FTP is File Transfer Protocol, whereas TFTP is Trivial FTP. FTP is a simple protocol for sharing files over a network, often used for transferring configuration (.cfg) files to switches and routers. TFTP is even simpler and more lightweight than FTP. 
 
-Unfortunately neither one of these protocols is very secure, hence the existence of SFTP and/or FTPS, which are integrated with SSL and SSH, respectively. 
+Unfortunately neither one of these protocols is very secure, hence the existence of SFTP and/or FTPS, which are integrated with SSH and SSL/TLS, respectively. 
 
-TFTP: simple to implement, but does not provide authentication capabilities or user-level access control. Anyone with access to the TFTP server can read or write files. TFTP has minimal overhead, uses UDP for transport. Lacks directory listings and file deletion capabilities. Commonly used
+TFTP: simple to implement, but does not provide authentication capabilities or user-level access control. Anyone with access to the TFTP server can read or write files. TFTP has minimal overhead, uses UDP for transport. Lacks directory listings and file deletion capabilities. Commonly used for transferring firmware or config files to routers, switches, and IP phones. It is also used for network booting (e.g. PXE boot) to load an operating system from a TFTP server. TFTP operates on UDP port 69. TFTP is often used in embedded systems, or for network bootstrapping.
+
+Network bootstrapping:
+
+FTP: more features than TFTP; supports authentication, directory listings, file upload, download, deletion, and renaming. Supports multiple authentication methods, including username and password, FTPS, SFTP, etc. FTP allows users to list the contents of directories on the server. FTP clients and servers are widely available on various OSes, including Windows, Mac, Linux. FTP can operate in active and passive modes to conform to network requirements, including security. FTP operates on TCP ports 20 (control) and 21 (data); SFTP uses port 22 (SSH). FTP can be used in both interactive and scripted scenarios.
 
 SECURITY FUNDAMENTALS
 
 -Define key security concepts (threats, vulnerabilities, exploits, and mitigation techniques)?
 
--Describe security program elements (user awareness, training, and physical access control)?
+Threat: anyone or anything that poses a risk to the information security of an individual or organization. A threat can obviously be a hacker, but it can also be malware written by hackers that acts in a mostly autonomous fashion, e.g. a virus that was set loose on the internet and now acts in an independent and self-replicating fashion. Furthermore, a threat can also reside inside the network, e.g. an employee who has just been laid off and decides to use their last remaining hours of access to steal proprietary information from the company.
+
+Vulnerability: these come in many shapes and sizes. A vulnerability can be a bug in the organization's code, or it can be a weakness in a human member of the organization that can be leveraged to perform an exploit. Another example is an unnecessarily open port on one of the network servers which a hacker might use to launch an attack. When an attacker uses a vulnerability to launch an attack, that is called an exploit.
+
+Exploit: an instance of capitalizing on a vulnerability in order to launch an attack on an individual or organization. 
+
+Mitigation technique: there exist many of these, but what they all have in common is that they are used to lessen the probability of an exploit. Mitigation can also be thought of as risk or vulnerability management. 
+
+Examples: security awareness training for members of the organization, firewalls, SIEM, having or outsourcing a SOC team, physical security applications (cameras, fences, security guards), etc.
+
+-Describe security program elements (user awareness training, and physical access control)?
+
+User awareness training: as humans are generally more easily exploited than technological elements of an organization, it is important that members of an organization have at least a basic understanding of infosec principles as well as the current threat landscape. 
+
+Physical access control: should include many things, depending on the topology of the office or datacenter. Should probably include fences, security guards, electronic locks with scanners, cameras, maybe a vestibule, etc.
 
 -Configure and verify device access control using local passwords?
 
+Configure access control:
+
+# Enter config mode;
+enable
+
+# Enter global config mode;
+configure terminal
+
+# Create a username and password;
+username [username] privilege 15 secret [password]
+
+# Encrypt passwords;
+service password-encryption
+
+# Configure Line VTY access;
+
+# Configure five virtual terminal lines;
+line vty 0 4
+
+# Ensure local usernames and passwords are used for authentication;
+login local
+
+# Allow SSH access only;
+transport input ssh
+
+# Exit config mode;
+exit
+
+# Save config;
+write memory
+
+Verify access control:
+
+One way is to simply try logging onto the device using the credentials you configured. 
+
+Alternatively:
+
+# View running-config, pipe for usernames and their respective settings;
+show running-config | include username
+
 -Describe security password policies elements, such as management, complexity, and password alternatives (MFA, certificates, biometrics)?
+
+Management: 
+
+Complexity:
+
+Password alternatives:
 
 -Describe IPsec remote access and site-to-site VPNs?
 
