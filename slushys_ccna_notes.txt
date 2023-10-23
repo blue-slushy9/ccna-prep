@@ -598,13 +598,75 @@ Verify static and pool NAT:
 
 -Configure and verify NTP operating in a client and server mode?
 
+Configure NTP Server:
+enable
+configure terminal
+ntp master [stratum] 
+
+(where stratum is the stratum level for your NTP server; the stratum value indicates the reliability of the NTP server, with lower values being more reliable);
+
+Optional: specify the NTP Source Interface, which is the interface through which NTP packets will be sent:
+ntp source [interface-type] [interface-number]
+
+Configure NTP client:
+enable
+configure terminal
+ntp server [server-ip] 
+
+(where server-ip is the IP address of the NTP server with which you want to sync;
+
+Verify NTP status, including NTP synchronization and the status of NTP associations; this command will show information about the NTP servers the client is syncing with and the status of each association:
+show ntp status
+
 -Explain the role of DHCP and DNS within the network?
+DHCP: Dynamic Host Configuration Protocol, it is a technology that allows for IP addressing to be configured automatically by a DHCP server for its DHCP clients. First you have to configure the DHCP server, then define its IP addressing information it will serve out to its clients. The IP addressing information includes the obvious IP address, subnet mask, default gateway---but also other elements such as DNS server. DHCP information is served out by way of the DHCP Three-Way Handshake, in which the DHCP server and client send SYN, SYN/ACK, and ACK packets back and forth in order to set the client up with its IP addressing information. 
+
+DNS: Domain Name System, this is the protocol that handles mapping domain names to their corresponding IP addresses, e.g. archlinux.org maps out to the IP address 95.217.163.246. Less commonly, DNS can also map IP addresses to domain names. There is internal DNS and external DNS: internal refers to inside the LAN or organizational network, which should have its own authoritative DNS/name server. The internal DNS server should have records for all hosts within the network, however when it comes to the internet they most usually need help. 
+
+This is where DNS recursion/delegation comes into play. If the internal DNS server cannot resolve a name or IP address, it can delegate its DNS query to one of thirteen root servers (e.g. .com, .net, .edu) which serve the entire world at the top-level domain. These servers will in turn delegate the query to second-level domain servers (e.g. Yahoo.com, Google.com, Debian.org), and so on and so forth until the destination host is found.
+
+It should be noted that one of the key principles of DNS says that each individual host is responsible for its own name resolution (which is why they all maintain a resolver cache), however if they cannot do it then they can submit DNS queries, which often lead to recursion/delegation by the local DNS server.
 
 -Explain the function of SNMP in network operations?
+Simple Network Management Protocol, this is a technology that allows for centralized management of network assets, in contradistinction with the traditional approach of managing them individually using the local terminal or GUI. Especially in large networks, the ability to centralize and automate network administration tasks is hugely beneficial, as it would be time-consuming to have to configure, monitor, and troubleshoot on a per-device basis. 
+
+SNMP monitors and sends alerts ("traps" or "informs") if something is going on with a particular device, e.g. a router crashes. It can provide performance metrics. SNMP can also perform traffic analysis, including collecting traffic statistics. It can also keep an inventory of network devices. SNMP can also collect historical data and generate reports for trend analysis.
 
 -Describe the use of syslog features including facilities and levels?
+Syslog is a standard protocol for logging and transmitting messages within a network. These messages are categorized into two main subtypes: Facilities and Severity Levels.
+
+Facilities: represent the source of a syslog message. They help classify the origin of the log entry, making it easier to identify the network device that generated it. Syslog defines various facilities, and each facility is represented by a number. Common facilities:
+
+Kernel (0)
+User (1)
+Mail (2)
+Daemon (3)
+Authorization (4)
+Syslog (5)
+Printer (6)
+News (7)
+UUCP (8)
+Clock Daemon (9)
+Local0 through Local7 (16-23) [these are user-defined facilities that can be used for custom log messages]
+
+Severity Levels: AKA "severity" or "severity codes", these indicate the importance or urgency of a syslog message. Syslog defines eight standard severity levels, which are often referred to by their numeric values:
+
+Emergency (0)
+Alert (1)
+Critical (2)
+Error (3)
+Warning (4)
+Notice (5)
+Informational (6)
+Debug (7)
+
+When configuring syslog, admins can filter and route log messages based on both facility and severity level, e.g. log only critical and higher severity messages from "kernel", and log all informational messages from "user".
+
+More about Syslog:
+Flexible configuration, including how log messages are generated, processed, and forwarded. Centralized logging in a central syslog server. Security, including secure log transmission via TLS, SSH, etc. Syslog uses UDP be default, however it can be configured to use TCP as needed. Hierarchical logging is supported, which allows for easy organization and retrieval (example: "facility.severity"). As mentioned above, it is possible to customize log facilities based on the needs of your network. Timestamps are included in messages. Notifications and alerts can be configured for any conceivable network event. Syslog can be integrated with wider monitoring tools. Log rotation actions can be configured to prevent depletion of disk space. Filtering and routing of messages based on their content can also be configured to decide what to do with them.
 
 -Configure and verify DHCP client and relay?
+
 
 -Explain the forwarding per-hop behavior (PHB) for QoS, such as classification, marking, queuing, congestion, policing, shaping?
 
