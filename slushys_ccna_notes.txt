@@ -837,15 +837,40 @@ show running-config | include username
 
 -Describe security password policies elements, such as management, complexity, and password alternatives (MFA, certificates, biometrics)?
 
-Management: 
+Management: obviously passwords should not be shared. In 2023, they should also probably be at least 40 characters long, though the consensus of the infosec community seems to be that password complexity is not nearly as important of a factor anymore as password length. Passwords should be changed at least every 2-3 months, which is a measure that is built into Windows and perhaps other OSes. Passwords should be (and are) stored as hashes instead of plaintext, in case an attacker gains access to the password file(s). Passwords should not be reused across multiple accounts or platforms. 
 
-Complexity:
+Complexity: depends who you ask honestly, according to ChatGPT it is still recommended to have complex passwords to make them less predictable, and hence less vulnerable to dictionary or brute-force attacks. However, I spend time around the infosec community online and they are not so focused on password complexity anymore as they are on length. 
 
-Password alternatives:
+Password alternatives---
+
+MFA: multi-factor authentication, involves the use of two or more types of authentication, which are usually defined as 1) something you have, 2) something you know, 3) something you are. A username-password combo is an example of something you know, so this method typically gets used in addition to an authenticator app passcode, a biometric scan, or a key-card/badge scan. 
+
+Certificates: highly secure alternative to traditional passwords. Certificates are issued and managed by a trusted third-party entity called a Certificate Authority (CA). The CA verifies the identity of the certificate holder and binds their public key to the certificate. 
+
+Certificates are typically associated with a pair of cryptographic keys: public key and private key. The public key is included in the certificate and is freely shared, whereas the private key is kept secret and secure. The private key is used to create a digital signature for data, such as authentication requests or encrypted communication. The signature is unique to the private key and ensures data integrity and authenticity. 
+
+Certificates can be stored in various places, including hardware tokens, software-based key stores, or directly on devices such as smartphones and smartcards. 
+
+Advantages of certificates over passwords: superior security (even if the certificate gets stolen the attacker still doesn't have the private key), strong authentication, eliminates passwords, mitigates phishing attacks, streamlines authentication (user only needs the one certificate versus many credential combinations), non-repudiation, encryption (certificates can be used for encryption), granular access control (certificates can be associated with specific roles or permissions, allowing for fine-grained access control).
+
+Biometrics: these are identifiers that exist naturally in a human body, e.g. fingerprints, retina, etc. Some organizations choose to use biometric scanners for added security.
 
 -Describe IPsec remote access and site-to-site VPNs?
 
+IPsec remote access: the use of IPsec protocols and technologies to secure remote connections to a private network or resources over the internet or another untrusted network. IPsec is a suite of protocols which provides mechanisms for authentication, encryption, and integrity verification. IPsec is often used in combination with VPNs, which create encrypted tunnels over unsecure networks, to access private networks as if they were on-premise. Remote users can run IPsec software to establish secure connections. Remote access gateways or concentrators are the entry points to the private network, they receive and authenticate incoming IPsec connections from remote clients. IPsec provides assurance about data origin. 
+
+IPsec remote access typically uses the following authentication and security protocols: PSK, digital certificates, authentication header (AH), encapsulating security payload (ESP), internet key exchange (IKE).
+
+Site-to-site VPN: allows geographically dispersed networks to securely connect with one another over the internet. Unlike remote access VPNs, which allow individual users/devices to connect to a central network, S2S VPNs facilitate network-to-network communication, i.e. entire networks and/or subnets are interconnected. S2S VPNs often use IPsec and TLS. Each network involved in the S2S VPN has a gateway device or VPN concentrator that manages the VPN connection; these devices encrypt and decrypt data and route it between networks. 
+
+Each network must have a unique set of IP addresses to ensure proper routing within the VPN tunnel. Subnet and routing information is usually exchanged between the gateways to facilitate routing. S2S VPNs often use pre-shared keys or digital certificates to authenticate the participating networks and ensure that only authorized sites can establish a connection. 
+
+S2S VPNs can be configured in various topologies: hub and spoke, full mesh, partial mesh, etc. 
+
+Other use cases: datacenters, cloud integration, partner networks, remote devices.
+
 -Configure and verify access control lists?
+
 
 -Configure and verify L2 security features (DHCP snooping, dynamic ARP inspection, and port security)?
 
