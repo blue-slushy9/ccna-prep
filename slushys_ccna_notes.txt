@@ -871,12 +871,172 @@ Other use cases: datacenters, cloud integration, partner networks, remote device
 
 -Configure and verify access control lists?
 
+# Access global config mode;
+enable
+configure terminal
+
+# Create an extended ACL;
+ip access-list extended [ACL-name] # You can also use an ACL number;
+
+# Define ACL rules (example);
+permit tcp 192.168.1.1 0.0.0.255 any eq 80
+deny ip any host 10.0.0.1
+
+# Apply ACL to an interface (inbound or outbound);
+interface [INTERFACE]
+ip access-group [ACL-name] in
+
+# Exit config mode;
+exit
+
+# Save config;
+write memory
+
+Verify ACL config;
+
+# View ACLs;
+show access-lists [ACL-name]
+
+# View ACL applied to interface;
+show ip interface [INTERFACE]
+
+# Monitor ACL hits;
+show access-lists [ACL-name]
+
+*After applying an ACL, you may use ping and/or other network utilities (tracert, etc.) to test it is working as intended;
+
+*Check for ACL matches in Log or Syslog;
 
 -Configure and verify L2 security features (DHCP snooping, dynamic ARP inspection, and port security)?
 
+CONFIGURE DHCP SNOOPING---
+
+# Access global config mode;
+enable
+configure terminal
+
+# Enable DHCP snooping;
+ip dhcp snooping
+
+# Enable DHCP snooping on specific VLANs;
+ip dhcp snooping vlan [VLAN-ID]
+
+# Define DHCP Snooping Trust interface;
+interface [INTERFACE]
+ip dhcp snooping trust
+
+# Exit config mode;
+end
+
+# Save config;
+write memory
+
+VERIFY DHCP SNOOPING---
+
+# View DHCP snooping information;
+show ip dhcp snooping
+
+# View DHCP snooping status on specific interfaces;
+show ip dhcp snooping interface [INTERFACE]
+
+# Verify the DHCP snooping binding database;
+show ip dhcp snooping binding
+
+# Check DHCP snooping statistics;
+show ip dhcp snooping statistics
+
+CONFIGURE DYNAMIC ARP INSPECTION---
+
+# Access global config mode;
+enable
+configure terminal
+
+# Enable DHCP snooping (prereq for DAI globally, if it's not already enabled);
+ip dhcp snooping
+
+# Enable dynamic ARP inspection;
+ip arp inspection
+
+# Enable DAI on specific VLANs;
+ip arp inspection vlan [VLAN-ID]
+
+# Define the trusted interfaces;
+interface [INTERFACE]
+ip arp inspection trust
+
+# Exit config mode;
+exit
+
+# Save config;
+write memory
+
+VERIFY DHCP SNOOPING---
+
+# Display DAI information;
+show ip arp inspection
+
+# View DAI status on specific interfaces;
+show ip arp inspection interface [INTERFACE]
+
+# Check DAI binding database;
+show ip arp inspection binding
+
+# View DAI statistics;
+show ip arp inspection statistics
+
+CONFIGURE PORT SECURITY---
+
+# Access global config mode;
+enable
+configure terminal
+
+# Enter interface config mode;
+interface FastEthernet0/1 # Example;
+
+# Enable port security;
+switchport port-security
+
+# Set the maximum number of allowed MAC addresses;
+switchport port-security maximum 2
+
+# Specify the violation mode;
+# protect = no action taken, but violation counter increments;
+# restrict = violating traffic is dropped, violation counter increments;
+# shutdown = port is put into error-disabled state;
+switchport port-security violation [protect|restrict|shutdown]
+
+# Exit config mode;
+end
+
+# Save config;
+write memory
+
+VERIFY PORT SECURITY---
+
+# Display port security information;
+show port-security [interface [INTERFACE]]
+
+# View port security violation counters;
+show port-security [interface [INTERFACE]] | include Violation
+
+# Check port security MAC address table;
+show port-security address
+
 -Compare authentication, authorization, and accounting concepts?
 
+Authentication: process of verifying someone or something actually is who or what they claim to be.
+
+Authorization: (not) granting access to someone or something based on who or what they actually are. 
+
+Accounting: also accountability; ensuring that someone or something is held responsible for any actions taken. As a prerequisite, we must know at all times who has access to which resources, and what actions they have taken against those resources. This is where logs and databases come into play.
+
 -Describe wireless security protocols (WPA, WPA2, WPA3)?
+
+WPA: Wireless Protected Access, now deprecated. This was designed as a temporary wireless protocol 
+
+WPA2: 
+
+WPA3: 
 
 -Configure and verify WLAN within the GUI using WPA2 PSK?
 
