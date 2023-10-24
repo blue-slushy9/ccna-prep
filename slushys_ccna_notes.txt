@@ -1032,19 +1032,64 @@ Accounting: also accountability; ensuring that someone or something is held resp
 
 -Describe wireless security protocols (WPA, WPA2, WPA3)?
 
-WPA: Wireless Protected Access, now deprecated. This was designed as a temporary wireless protocol 
+WPA: Wi-Fi Protected Access, now deprecated. Originally designed to replace WEP as that was even less secure. WPA was in turn also designed as a temporary wireless protocol while WPA2 was being developed. WPA uses TKIP, supports various authentication methods (PSK, 802.1x), 
 
-WPA2: 
+WPA2: uses AES (Advanced Encryption Standard), supports both PSK and 802.1x authentication. This protocol was considered quite secure for many years, but more recently security researchers have identified vulnerabilities in it (e.g. KRACK). 
 
-WPA3: 
+WPA3: in 2023, this is the latest wireless protocol with the best security. Supports SAE (Simultaneous Authentication of Equals) for stronger, password-based authentication and forward secrecy, which protects past communications even if a password is compromised. Resistant to offline dictionary attacks, which makes it more secure against brute-force and similar attacks. Individualized data encryption ensures that each client on a network has its own encryption key. WPA3-Personal mode introduces better protection against weak passwords by using the Dragonfly protocol for password-based authentication. WPA3-Enterprise mode offers stronger security for larger networks with 802.1x authentication. WPA3 is the recommended choice for securing Wi-Fi networks, especially for new installations. 
 
 -Configure and verify WLAN within the GUI using WPA2 PSK?
+
+CONFIGURE WLAN USING WPA2 PSK---
+
+# Access the Cisco WLC GUI;
+Open a web browser and enter the IP address or hostname of your Cisco Wireless LAN Controller.
+
+# Log in;
+
+# Navigate to WLAN Configuration, it may be under the Wireless or Security tabs;
+
+# Create a new WLAN profile for your network (if it doesn't already exist);
+
+# Configure the WLAN settings, including WLAN name, VLAN, and SSID;
+
+# In the WLAN security settings, select WPA2 as the security method;
+
+# Choose WPA2-PSK as the WPA version, then enter a strong PSK (pre-shared key) in the PSK Passphrase field;
+
+# Select AES as the encryption method for WPA2-PSK;
+
+# Configure other WLAN settings as needed, including QoS profiles, VLAN mappings, etc.;
+
+VERIFY WLAN WITH WPA2-PSK---
+
+# Save the configuration changes you made within the Cisco WLC GUI;
+
+# Test connectivity;
+Connect a Wi-Fi device to the newly configured WLAN using the SSID and PSK. Ensure the device can connect successfully.
+
+# Monitor WLAN status;
+In the Cisco WLC GUI, navigate to the WLAN status or monitoring section to check the status of the WLAN. Verify that clients are successfully connecting.
+
+# Check WLAN statistics;
+Monitor WLAN statistics---such as client associations, disassocations, and traffic---to ensure the WLAN is functioning as expected.
+
+# Security monitoring;
+Regularly monitor the security status of your WLAN to ensure that the WPA2-PSK settings remain in place and provide the necessary security. 
 
 AUTOMATION AND PROGRAMMABILITY
 
 -Explain how automation impacts network management?
+If properly configured, automation can be hugely beneficial to netadmins and endusers alike. For instance, you might have a vast SDN (software-defined networking) network with many devices, which you would otherwise have to manually configure one-by-one if not for SDN. In addition to configuring them, to access their logs you would also need to log onto the devices one by one and manually issue the commands needed to access and parse the logs. 
+
+
 
 -Compare traditional networks with controller-based networking?
+In traditional networks, the devices are individually managed. You would have to either remote into the device or connect using a cable, traditionally a serial/console cable, in order to configure it or access its information. 
+
+In controller-based networking (e.g. SDN), network devices are managed from a central device, called the controller. You can easily configure all or many devices from this controller, which saves admins a lot of time and effort. 
+
+Additionally, if you have Syslog configured on the network, then there is also a central server where logs from network devices are aggregated. Syslog can be configured to generate alerts when certain events occur on the network, which makes it much easier to respond to events than if admins had to go through each device's logs to detect a possible incident.
 
 -Describe controller-based, software-defined architecture (overlay, underlay, and fabric)?
 
