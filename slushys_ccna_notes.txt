@@ -1082,7 +1082,33 @@ AUTOMATION AND PROGRAMMABILITY
 -Explain how automation impacts network management?
 If properly configured, automation can be hugely beneficial to netadmins and endusers alike. For instance, you might have a vast SDN (software-defined networking) network with many devices, which you would otherwise have to manually configure one-by-one if not for SDN. In addition to configuring them, to access their logs you would also need to log onto the devices one by one and manually issue the commands needed to access and parse the logs. 
 
+Automation ensures consistent network configurations across devices, reducing the probability of human error. Templates and scripts are used for this purpose. Network devices can be rapidly deployed, provisioned, and configured.
 
+Automation tools often include version control, allowing netadmins to track changes made to configurations and roll back as needed. Automation can enforce compliance with network policies and standards, reducing the risk of non-compliance and security vulnerabilities.
+
+Automation tools can provide real-time visibility into network performance, including traffic flow, device health, and security events. Automated alerting mechanisms can detect anomalies and critical events, allowing administrators to respond promptly to issues. 
+
+Automation can trigger predefined responses to certain events or issues, such as reconfiguring devices to mitigate security threats or optimizing network performance. 
+
+Automation simplifies the process of scaling networks and load balancing traffic across devices. It can automatically allocate resources as needed to meet demand. 
+
+Automation tools can perform regular audits of device configurations to ensure they adhere to best practices and security policies.
+
+Automation allows for self-healing networks where devices can detect and respond to failures autonomously, reducing downtime. 
+
+Automation, combined with analytics, can provide insights into network behavior and trends, helping organizations make informed decisions about capacity planning and optimization. 
+
+Automation generates detailed reports on network performance, security incidents, and configuration changes, which can be crucial for compliance and troubleshooting.
+
+Automation enables orchestration of complex workflows and tasks, allowing for the seamless deployment of multi-tier applications and services.
+
+Automation technologies are often integrated with software-defined networking (SDN) solutions, enabling centralized network control and programmable network resources. 
+
+Automation can enforce security policies, such as access controls, firewall rules, and encryption, in a consistent and timely manner.
+
+Automation allows netadmins to write scripts and code to interact with Cisco devices using APIs and programmable interfaces, enhancing customization and control.
+
+Cisco provides many automation tools and solutions, such as Cisco DNA Center, Cisco NSO (Network Services Orchestrator), and Cisco DevNet.
 
 -Compare traditional networks with controller-based networking?
 In traditional networks, the devices are individually managed. You would have to either remote into the device or connect using a cable, traditionally a serial/console cable, in order to configure it or access its information. 
@@ -1090,6 +1116,42 @@ In traditional networks, the devices are individually managed. You would have to
 In controller-based networking (e.g. SDN), network devices are managed from a central device, called the controller. You can easily configure all or many devices from this controller, which saves admins a lot of time and effort. 
 
 Additionally, if you have Syslog configured on the network, then there is also a central server where logs from network devices are aggregated. Syslog can be configured to generate alerts when certain events occur on the network, which makes it much easier to respond to events than if admins had to go through each device's logs to detect a possible incident.
+
+TRADITIONAL NETWORKS
+
+Decentralized control: individual network devices operate independently and make local decisions re. traffic forwarding, security, and management.
+
+Manual configuration: config and management of devices are typically manual and device-centric, often requiring extensive CLI interactions.
+
+Scalability challenges: as networks grow, manual config and management become complex and time-consuming, leading to scalability challenges.
+
+Limited automation: automation in traditional networks is limited to simple scripting and batch processing, with less comprehensive automation and orchestration.
+
+Complex troubleshooting: TSing network issues can be time-consuming, as problems often need to be identified and resolved on individual devices.
+
+Security and policy enforcement: enforced on individual devices, making it challenging to maintain consistent security policies across the network.
+
+CONTROLLER-BASED NETWORKS
+
+Centralized control: controller-based networks centralize network control and management, allowing for a unified view and control of network devices from a central controller.
+
+Programmability and automation: Network config and management are highly automated and programmable through the controller, reducing the need for manual, device-by-device configuration.
+
+Scalability and efficiency: controller-based networks are more scalable and efficient, particularly for large and complex networks, as changes and updates can be applied uniformly across the network. 
+
+Simplified troubleshooting: TSing is simplified with centralized monitoring, visibility, and the ability to quickly identify and address issues from a central point. 
+
+Consistent security policies: security policies and access controls can be consistently enforced across the network from the central controller, enhancing security.
+
+Software-defined networking (SDN) integration: controller-based networks are often closely associated with SDN, enabling programmable, software-defined network architectures that can adapt to changing requirements. 
+
+Application awareness: controller-based networks can provide application visibility and control, optimizing network resources for specific applications and services.
+
+Policy-based management: network policies and configurations can be defined based on specific business requirements and easily applied across the network. 
+
+Orchestration: controller-based networks allow for network orchestration, enabling the automated provisioning and scaling of network resources for applications and services.
+
+
 
 -Describe controller-based, software-defined architecture (overlay, underlay, and fabric)?
 
