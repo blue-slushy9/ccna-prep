@@ -1151,13 +1151,45 @@ Policy-based management: network policies and configurations can be defined base
 
 Orchestration: controller-based networks allow for network orchestration, enabling the automated provisioning and scaling of network resources for applications and services.
 
-
-
 -Describe controller-based, software-defined architecture (overlay, underlay, and fabric)?
+
+Controller-based SDN centralizes the control plane; it also abstracts and separates the data plane. The controller communicates with both the underlay and overlay networks to provide a comprehensive view of the network. 
+
+SDN controller: central component of architecture, responsible for controlling and managing the network devices and traffic. Communicates with network devices in the underlay network using southbound APIs (Application Programming Interfaces) to configure them and gather information. Also communicates with the overlay network, which often includes SDN applications, services, and orchestrators, using northbound APIs. Collects information about the network state, policies, and requirements and uses this information to make centralized decisions regarding network traffic and configuration. 
+
+Underlay: forms the physical infrastructure of the network, consisting of routers, switches, and other network devices. Responsible for forwarding traffic between network nodes based on standard routing and switching protocols. Provides the foundation for the overlay network, allowing it to function on top of the physical infrastructure.
+
+Overlay: logical or virtual network that operates on top of the physical underlay network. Abstracts the physical network infrastructure and enables the creation of virtual network services and topologies. Overlay networks can be created to isolate specific applications or services from the underlying physical network, providing flexibility and customization.
+
+Fabric: a logical network that encompasses the entire network, including the underlay and overlay networks. Designed to simplify network management by abstracting the complex physical infrastructure and providing a unified, programmable view of the network. Allows for the automation of network provisioning, optimization, and troubleshooting across both the physical and virtual network elements. 
+
+SDN applications and services: run on top of the SDN controller and provide various network functions, e.g. load balancing, firewalling, traffic optimization, and network monitoring. These apps and services can use the controller's centralized view of the network to make dynamic decisions and adapt to changing conditions. 
 
 -Separation of control plane and data plane?
 
+Control plane is the higher-level plane in SDN, which is integrated with the controller and software used for network management and monitoring. Data plane is below the control plane but above the physical/infrastucture plane, and it governs data transmission and processing. Separating these planes allows for much more centralized control and network automation, which is a huge improvement on traditional networking methodologies. 
+
+CONTROL PLANE: 
+
+Responsible for making decisions about how network data should be handled. Determines the best paths for data traffic, sets up routing and forwarding tables, manages network protocols. Network devices control information to build and maintain the routing tables and make decisions about how to forward traffic. Functions include routing protocols (OSPF, BGP), network management, and security policy enforcement. Typically implemented in software and runs on the network device's control processor (CPU). 
+
+DATA PLANE: 
+
+AKA "forwarding plane", responsible for the actual forwarding of network traffic based on the instructions received from the control plane. Here, network devices perform the actual packet forwarding, switching, and routing. They make decisions based on the preconfigured routing and forwarding tables set by the control plane. Data plane functions are highly optimized for fast packet processing and may involve hardware-based forwarding, such as ASICs. Network devices (e.g. routers and switches) are designed to be primarily data plane devices, responsible for forwarding packets based on control plane instructions. 
+
+ADVANTAGES OF SEPARATION: flexibility, scalability, centralization, resilience, simplified network management. 
+
 -Northbound and Southbound APIs?
+
+NORTHBOUND APIs: these are in the Data Plane and pointing to the control plane. They allow Data Plane devices to communicate with the controller and software that runs in the Control Plane. This allows for transmission of local device data to the CP, such as logs or configuration details.
+
+
+
+SOUTHBOUND APIs: these reside in the Control Plane and point to the Data Plane. This type of API allows for high-level CP instructions to be translated into runnable configuration instructions for Data Plane devices.
+
+AKA "southbound interface", the interface between the SDN controller and the network devices in the DP. Allows SDN controller to communicate with and instruct network devices, configure their forwarding tables, making flow control decisions, and managing the network's data plane operations. SB API enables SDN controller to push network policies, routes, and instructions to the devices, ensuring they operate according to desired network config. Common SB APIs include OpenFlow, NETCONF, etc.
+
+NB and SB APIs are terms used to describe the interfaces and communication channels that allow different components of the SDN architecture to interact with each other. These APIs play a crucial role in enabling the separation of control plane and data plane and facilitating centralized network management. 
 
 -Compare traditional campus device management with Cisco DNA Center enabled device management?
 
