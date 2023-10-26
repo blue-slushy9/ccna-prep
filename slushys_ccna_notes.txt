@@ -1183,7 +1183,7 @@ ADVANTAGES OF SEPARATION: flexibility, scalability, centralization, resilience, 
 
 NORTHBOUND APIs: these are in the Data Plane and pointing to the control plane. They allow Data Plane devices to communicate with the controller and software that runs in the Control Plane. This allows for transmission of local device data to the CP, such as logs or configuration details.
 
-
+The interface between the SDN controller (CP) and SDN applications, network services, and management systems. Allows external applications and services to communicate with the SDN controller, request network services, provide network policies, and gather network information. NB API provides a way for developers to create applications and services that leverage the SDN infrastructure. These applications can be used for network orchestration, automation, networking monitoring, and various network services. NB APIs enable communication between SDN controllers and higher-level applications that can make use of the centralized control and programmability of the SDN infrastructure. 
 
 SOUTHBOUND APIs: these reside in the Control Plane and point to the Data Plane. This type of API allows for high-level CP instructions to be translated into runnable configuration instructions for Data Plane devices.
 
@@ -1193,8 +1193,118 @@ NB and SB APIs are terms used to describe the interfaces and communication chann
 
 -Compare traditional campus device management with Cisco DNA Center enabled device management?
 
+TRADITIONAL CAMPUS DEVICE MANAGEMENT---
+
+Device-centric management: focuses on managing individual network devices in a device-centric manner. Netadmins typically use the CLI on each device for configuration and monitoring.
+
+Manual configuration: changes are often implemented manually and may involve repetitive, device-specific configurations.
+
+Isolated network services: services and features like security policies, QoS, and segmentation are managed on a per-device basis, leading to potential inconsistencies and complexity. 
+
+Limited visibility: netadmins may have limited visibility into the overall network health, security posture, and performance. TSing issues often requires checking individual devices.
+
+CISCO DNA CENTER-ENABLED DEVICE MANAGEMENT---
+
+Centralized management: platform for entire network, with unified view of network devices and services. 
+
+Automation and orchestration: uses these to simplify and streamline network configuration and management. Netadmins can automate device provisioning, config deployments, and policy application.
+
+Policy-based management: allows netadmins to define and enforce network-wide policies for security, QoS, and access control.
+
+Advanced analytics: insights into network performance, security threats, user behavior. 
+
+Security integration: DNA center integrates with Cisco's security solutions, providing threat detection, segmentation, and response capabilities. 
+
+Simplified troubleshooting: through centralized visibility and diagnostic tools, which can pinpoint network issues. 
+
+Scalability: DNA Center is designed for scalability.
+
+Integration with SD-Access: DNA center is closely integrated with Cisco Software-Defined Access (SD-Access), enabling intent-based networking and automation of end-to-end network services.
+
+Campus Area Networks are around the size of a college campus. They entail many redundant access points for seamless roaming, as well as probably several antennas for outdoor wireless-signal propagation. 
+
 -Describe characteristics of REST-based APIs (CRUD, HTTP verbs, and data encoding)?
+
+REST-based API: REpresentational State Transfer API, a set of rules and conventions for building and interacting with web services. A widely used architectural style for designing networked applications and web services, with a focus on simplicity, scalability, and interoperability. REST APIs are commonly used in the development of web and mobile applications to enable communication with server-side services. 
+
+KEY CHARACTERISTICS OF REST APIs: Statelessness, resources, HTTP methods, uniform interface, stateless communication, client-server architecture, layered system, self-descriptive messages.
+
+CRUD: Create, Read, Update, Delete; four basic operations that can be performed on data in many database systems and is often used as a fundamental framework in REST APIs for managing resources.
+
+Create (POST): used to add a new resource to the system.
+
+Read (GET): used to retrieve information or data from the system.
+
+Update (PUT/PATCH): used to modify or update existing resources.
+
+Delete (DELETE): used to remove a resource from the system.
+
+HTTP verbs: standardized actions or commands that can be used to specify the desired operation to be performed on a resource when making HTTP requests. Common HTTP verbs used in REST APIs not mentioned above: OPTIONS, HEAD, CONNECT, TRACE. HTTP verbs, along with URIs and status codes, form the core of the HTTP protocol and are essential for defining how clients interact with resources in RESTful web services. 
+
+Data encoding: the process of representing data in a specific format for transmission between a client and a server. The choice of data encoding format is crucial for ensuring that data can be accurately and efficiently transferred and interpreted by both parties. 
+
+Common data encoding formats: JSON (JavaScript Object Notation), XML, Form Data, Binary data, MessagePack, Protocol Buffers. 
 
 -Recognize the capabilities of configuration management mechanisms---Puppet, Chef, Ansible?
 
+Configuration management mechanism: used in IT and DevOps for managing and provisioning infrastructure, automating repetitive tasks, and ensuring consistent configurations across a network. 
+
+PUPPET---
+
+Declarative language: uses this to describe the desired state of infrastructure. You define what the system should look like, Puppet ensures it matches that state. 
+
+Cross-platform: Puppet supports a wide range of OSes and platforms.
+
+Resource abstraction: abstracts system resources (e.g. users, packages, services) into a uniform format, allowing you to manage them consistently.
+
+Configuration as code: Puppet enables you to express infrastructure as code, making it easy to version, test, and collaborate on configuration definitions. 
+
+Node classification: Puppet allows you to classify nodes into groups and apply configurations based on node type, simplifying management of large infrastructures. 
+
+Ecosystem: Puppet has a vast ecosystem of modules and pre-built configurations available in the Puppet Forge, which can be reused to speed up configuration tasks.
+
+CHEF--- 
+
+Infrastructure as code: Chef follows the IaC paradigm, allowing you to describe the desired state of your infrastructure using Ruby-based code.
+
+Cross-platform: Chef supports multiple platforms and cloud providers, offering flexibility in managing diverse environments.
+
+Resource-driven: Chef uses resources to define the elements of your infrastructure you want to manage. Resources can be configured, and Chef ensures the conform to the desired state. 
+
+Cookbooks: collections of recipes and resources that can be shared, reused, and maintained. They help in organizing and packaging configuration code. 
+
+Automated testing: provides tools like Test Kitchen and InSpec for testing infrastructure code, ensuring predictability and stability.
+
+Community and Ecosystem: Chef community and Chef Supermarket offer many pre-built cookbooks and resources.
+
+ANSIBLE--- 
+
+Agentless: doesn't require software to be installed on target systems. Communicates with remote systems using SSH or WinRM.
+
+Simple config: playbooks are written in YAML, making them easy to read and write. Playbooks describe the desired state of the system and the tasks needed to achieve it.
+
+Orchestration: enables the coordination of tasks across multiple servers or devices. 
+
+Extensibility: modules can be custom-built or obtained from the Ansible Galaxy.
+
+Role-based configuration: uses roles to organize tasks and configurations, making it easy to manage complex setups and reuse code.
+
+Integration: can be integrated with other tools and platforms, e.g. cloud providers, containers, and monitoring systems, to create end-to-end automation workflows. 
+
 -Recognize components of JSON-encoded data?
+
+JSON: JavaScript Object Notation, a lightweight data-interchange format used for representing structured data. JSON data consists of key-value pairs and structured data types. 
+
+OBJECTS: an unordered collection of key-value pairs enclosed in curly braces {}. Each key is a string enclosed in double quotes, followed by a : and its corresponding value. Keys within an object must be unique. 
+
+ARRAYS: an ordered list of values enclosed in square brackets []. Elements within an array can be of any data type, including objects, arrays, strings, numbers, booleans, null, etc. Elements are separated by commas.
+
+STRING: a sequence of characters enclosed in double quotes. Strings can contain alphanumeric characters, special characters, and whitespace. 
+
+NUMBER: integer or floating-point value. Can be written with or without a decimal point or exponent notation. 
+
+BOOLEAN: in JSON, this can be true or false. Booleans are used to represent logical values. 
+
+NULL: a null or empty value. Often used to indicate the absence of a value or an unknown value. 
+
+JSON data can be hierarchical, allowing objects and arrays to be nested within each other. This flexibility makes JSON a suitable format for structuring and exchanging data between different systems, and it is commonly used in webapps, APIs, and data storage. JSON is the most popular data interchange format for software development. It is commonly used in conjunction with RESTful APIs for data transfer between clients and servers.
