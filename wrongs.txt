@@ -1,0 +1,17 @@
+EXAM 1
+
+7) LACP Port States
+
+Correct answer: Active
+
+10) VTP Domain
+
+Correct answer: It forwards only the VTP advertisements it receives on its trunk ports
+
+15) Switches Trunk Link
+
+Correct answer: The trunk forms but the mismatched Native VLANs merge into a single broadcast domain
+
+16) PortFast enabled
+
+Correct answer: Spanning tree may fail to detect a switching loop in the network that causes broadcast storms

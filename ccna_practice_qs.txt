@@ -1,0 +1,104 @@
+Which 802.11 frame type is association response?
+
+What is a protected frame, control, management, and action?
+
+Refer to the exhibit. The New York router is configured with static routes pointing to the Atlanta and Washington sites. Which two tasks must be performed so that the Serial0/0/0 interfaces on the Atlanta and Washington routers can reach one another? (Choose two)
+
+ipv6 route ::/0 interface next-hop
+
+Which statement about Link Aggregation when implemented on a Cisco Wireless LAN Controller is true?
+
+When enabled the WLC bandwidth drops to 500 Mbps
+
+The etherchannel must be configured in "mode active"
+
+one functional physical port is needed to pass client traffic
+
+to pass client traffic two or more ports must be configured
+
+
+Which QoS Profile is selected in the GUI when configuring a voice over WLAN deployment?
+
+192.168.16.143/28
+
+/28 = .0000/0000
+
+.143 = .1000/1111
+
+Which unified access point mode continues to serve wireless clients after losing connectivity to the Cisco Wireless LAN Controller?
+
+local
+
+sniffer
+
+mesh
+
+flex connect
+
+Which IPv6 address type provides communication between subnets and cannot route on the Internet?
+
+link-local
+
+multicast
+
+unique local
+
+global unicast
+
+Which command verifies whether any IPv6 ACLs are configured on a router?
+
+
+
+Which command automatically generates an IPv6 address from a specified IPv6 prefix and MAC address of an interface?
+
+
+Which design element is a best practice when deploying an 802.11b wireless infrastructure?
+
+
+What are two reasons that cause late collisions to increment on an Ethernet interface? (Choose two)
+
+
+What is the default behavior of a Layer 2 switch when a frame with an unknown destination MAC address is received?
+
+
+An engineer must configure a /30 subnet between two routers. Which usable IP address and subnet mask combination meets this criteria?
+
+10.2.1.3/30
+
+/30 = .000000/11
+
+.3 = .000000/11
+
+209.165.201.2/30
+
+/30 = .000000/11
+
+.2 = .000000/10
+
+
+How do TCP and UDP differ in the way that they establish a connection between two endpoints?
+
+
+Which mode allows access points to be managed by Cisco Wireless LAN Controllers?
+
+mobility express
+
+autonomous
+
+bridge
+
+lightweight
+
+
+An organization has decided to start using cloud-provided services. Which cloud service allows the organization to install its own operating system on a virtual machine?
+
+NaaS, PaaS, IaaS, SaaS
+
+
+Which statement identifies the functionality of virtual machines?
+
+Which two values or settings must be entered when configuring a new WLAN in the Cisco Wireless LAN Controller GUI? (Choose two)
+
+ip address of one or more access points, SSID, management interface settings, profile name, QoS settings
+
+Which command should you enter to configure an LLDP delay time of 5 seconds?
