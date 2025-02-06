@@ -1,0 +1,93 @@
+# Courtesy of my friend, David W.
+
+-Recommends Cisco Press, CCNA 200-301 official cert guide library; 
+
+-Does NOT recommend network simulator library (perhaps because we both 
+already have access to Cisco simulators through our training program?
+
+-CCNA Udemy, Neil Anderson; didn't watch most videos, comes with zip file for
+flash cards;
+
+-David mostly did the labs, including the ones from the Udemy course;
+
+-Packet Tracer is important!
+
+-Recommends EtherChannel, also Port Security;
+
+-Also DHCP snooping, Dynamic ARP inspection, Load Balancing, some ACLs on test,
+not a lot;
+
+-Subnetting, BGP maybe?, RIP is not really in test; VLANs yes!
+
+-VLAN.dat file, where is it stored? What happens if you delete?
+
+-Set up EtherChannel, configure for trunking; log into Port interface; 
+-configure VLAN tagging, native VLAN, neighbor relations;
+
+-DR, BDR, Link state database;
+
+-STP
+
+-Root bridge, some security;
+
+-NTP, one or two questions but no practical;
+
+-AAA, TACACS+, HSRP/VRRP; Layer 3 switching;
+
+-IPv6, you have to know quite a bit!
+
+-QoS, how to make network prioritize certain traffic over others;
+
+-VoIP, PoE, Next-Generation Firewalls;
+
+-Network controllers, DNA; network topology architectures;
+
+-IPv6 address & prefix; EUI 64;
+
+-A small amount of virtualization;
+
+-Configure ports on a switch for voice using Switchport!
+
+-use 'help' on Cisco IOS;
+
+-3 to 4 labs/simulations on exam, do as much as you can, you'll get credit
+as long as you run 'copy runn start';
+
+-CDP & LLDP, learn to tell them apart;
+
+-Port states;
+
+-Subnetting and reading command output is most of the exam!
+
+-Which IP config would work in this situation?
+
+-Network topologies, wireless architectures, use Packet Tracer!
+
+-Wireless devices have a GUI, learn the GUI!
+
+-Configure and verify static IPv4 and IPv6 routing;
+
+-Lots of reading command output and config files;
+
+-Get good at going through LONG command outputs, and fast!
+
+-NAT, DHCP, DNS, L3 switching; define scope, designate interface;
+
+-A bit of SNMP; forward PHB for QoS class, marking, queue, congestion,
+policing, shaping;
+
+-Set up SSH keys, domain name, etc.
+
+-WPA2, not sure about WPA3;
+
+-Almost nothing about automation and programmability;
+
+-Cisco DNA center;
+
+-DON'T GET CISCO PRESS LABS (David and I have access to Cisco VMs);
+
+-Packet Tracer, Neil Anderson labs;
+
+-Once you submit an answer, you can't go back (unlike Network+?);
+
+-Test is pass-fail, no minimum score for each section;

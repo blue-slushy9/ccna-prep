@@ -1,0 +1,1310 @@
+NETWORK FUNDAMENTALS
+
+EXPLAIN THE ROLE AND FUNCTION OF NETWORK COMPONENTS
+
+-Routers?
+Route packets between separate LANs or subnets. Each router interface also creates a separate collision and broadcast domain, i.e. routers drop broadcast packets unless otherwise configured not to do so, e.g. DHCP forwarding. Routers route packets by scanning their entire routing tables and finding the best route to the destination.
+
+-Layer 2 and Layer 3 switches?
+L2 switches operates at the Data Link Layer, which means they only route packets within a single LAN or subnet. Each switch interface creates a separate collision domain. Packets are routed by MAC address, which is obtained via ARP using the device’s IP address to enquire about its MAC address. L2 switches keep ARP tables that bind MAC addresses to IP addresses. L2 switches cannot route traffic between VLANs without the use of a router.
+
+Layer 3 switches can do everything their L2 counterparts can, but they can also carry out the tasks of a router. L3 switches operate at L2 and L3, meaning that they can deliver packets within a LAN based on MAC address, and they can route packets between LANs or subnets, even out to the internet. By default, L3 switch interfaces do not create separate broadcast domains like routers do; however they can be configured to do so. Like routers, they  maintain their own routing tables. They even support routing protocols such as OSPF and BGP, also network protocols such as QoS. 
+
+-Next-generation firewalls and IPS?
+Next-gen firewalls are "smart" firewalls. Instead of the traditional ACL-based firewalls, these are able to analyze and filter packets at a much higher level, e.g. stateful analysis in which the details/characteristics of a connection are taken into account instead of making decisions about a packet as-is. In addition to stateful analysis, next-gen firewalls also support integration with the greater IT security systems in place. Next-gen firewalls also support QoS and other such network optimization protocols, prioritizing certain traffic over other types.
+
+Features: Deep packet inspection (DPI), application awareness/control, intrusion detection & prevention, QoS, VPN support, etc.
+
+IPS is Intrusion Prevention System. In contradistinction with an IDS, and IPS will actually take proactive action to protect the network instead of just logging an event and/or sending an alert to the admins. The degree to which an IPS will take corrective/preventive action depends on its configuration, but generally it will drop packets it deems to be malicious, as well as putting the source on a blacklist, etc. An IPS may even make certain changes in network configuration if it deems it necessary, e.g. stopping a certain network service that may be unnecessary and an attack vector.
+
+Features: real-time monitoring, signature-based detection, behavioral analysis, protocol analysis, DPI, response actions, vulnerability-based detection, etc.
+
+-Access points?
+APs or Wireless APs (WAPs) are devices that allow endpoints to connect wirelessly to the internet. In a SOHO, the WAP is typically built into the router. WAPs typically have SSIDs that they broadcast so that users will know which WAP to connect to, then the user is prompted to enter a passphrase in order for their device to become associated with that WAP, i.e. to become connected to it. WPA2 or preferably WPA3 are the recommended security/encryption protocols for WAPs in 2023. In 802.11ax/Wi-Fi6 (and perhaps a few others), either the conventional 2.4 GHz or the 5 GHz channels can be used by WAPs.
+
+-Controllers (Cisco DNA center and WLC)?
+Cisco DNA center is a network management and automation platform developed by Cisco. Designed for enterprise networks, it focuses on intent-based networking (IBN) and software-defined networking (SDN) functionality. Features: network automation, IBN, SDN, SD-Acess, SD-WAN, security integration, API integration, etc.
+
+IBN: intent-based networking, allows netadmins to define high-level business objectives (e.g. security policies or QoS policies); IBN then translates these objectives into specific network configurations, implements them, and monitors them for compliance.
+
+WLC: Wireless LAN Controller, used to manage and control multiple access points. WLCs control lightweight APs (LWAPs), which in turn rely on the WLC for configuration settings, firmware updates, and security policies. WLCs support many security features, e.g. WPA2/WPA3, 802.1x, MAC address filtering, intrusion detection. Cisco Identity Services Engine (ISE) is commonly used for security policy enforcement. WLCs integrate with Cisco DNA center. 
+
+-Endpoints?
+These are the devices that serve as an entry point into the network, e.g. laptop, tablet, smartphone, server, IoT device, etc. Even if an endpoint isn't really designed to be used by a human to access the network (e.g. a smart toaster), it can still be hacked to make it serve as just such an entry point. Endpoints are also devices where data is created, processed, and consumed; because of this, they are often a target for hackers (and because they are entryways into a restricted network). Endpoint security measures include: firewalls, antivirus, IDS/IPS, encryption, endpoint management platforms, etc.
+
+-Servers?
+Servers are computers, but not like a desktop or laptop. Servers are not designed to be utilized by endusers; instead, they serve requests to client devices, which is what endusers utilize. There are many different types of servers: fileserver, webserver, printserver, FTP server, RADIUS server, etc. It is not uncommon for a single server to take on multiple roles, either. There are physical (hardware) servers, computers designed specifically to be servers; however, you can also configure a regular laptop or desktop to be a server as well. In addition, you can even configure a VM to be a server.
+
+-PoE?
+Power over Ethernet is a feature that allows for electrical power to be transmitted to network devices over ethernet cables. Typically this is done over Cat5e or Cat6 cables. This technology is commonly used in IP telephony, security cameras, WAPs, and IoT devices. 
+
+DESCRIBE CHARACTERISTICS OF NETWORK TOPOLOGY ARCHITECTURES
+
+-Two-tier?
+This architecture is suitable for mid-sized networks, but for large networks (e.g. major international corporation, datacenter) a three-tier or spine-leaf architecture is better for  scalability and flexibility.
+
+Tier 1: Access Layer; closest to enduser devices, main purpose is to provide network connectivity to endpoints. Elements: port density, VLANs, access control, PoE. 
+
+Tier 2: Distribution Layer; aggregation point for traffic from access layer. Functions: routing, load balancing, access control and security, high availability. 
+
+-Three-tier?
+Typically used in a large-scale enterprise of datacenter environment for greater scalability, manageability, and flexibility.
+
+Tier 1: Access Layer; see above.
+
+Tier 2: Distribution Layer; see above.
+
+Tier 3: Core Layer; innermost tier, responsible for high-speed backbone connectivity. Also fast packet forwarding, minimal packet processing, redundancy and high availability. 
+
+-Spine-leaf?
+AKA Clos network, highly scalable and efficient network architecture designed for modern cloud- and data-centers.  
+
+Spine layer: core of the network consisting of high-capacity switches and/or routers which are fully interconnected with one another. These devices do not perform complex packet processing or routing, instead they are designed for rapid packet forwarding.
+
+Leaf layer: access layer, consists of switches that connect directly to endpoints. Leaf switches are fully connected to spine switches, creating a non-blocking architecture. A non-blocking architecture is one in which the network can handle all port bandwidths simultaneously at full capacity. A non-blocking architecture ensures that any routing request to any free output port can be established successfully without interfering with other traffic. 
+
+Because of its scalability and rapidity, this type of network architecture is well suited for modern datacenters and large networks. 
+
+-WAN?
+Wide Area Network, these are long-distance point-to-point connections. They typically use the PPP or HDLC encapsulation protocols. They are most likely fiber as that cable type is best suited for long-range connections, but may also use long-range copper. These types of connections form the backbone of the global internet. To be precise, a single WAN link typically spans several kilometers. WANs can be built using a variety of hardware and network types; e.g. fiber cables, copper, coax, wireless; public networks (internet), private networks (leased lines, MPLS, dedicated WAN). There are also public WANs and private WANs. 
+
+-SOHO?
+Small Office Home Office, describes the type of network that typically exists in these environments, e.g. the WAP is typically built into the router, the network is probably configured as a workgroup rather than a domain. There may be one or two servers, if any. Hardware is consumer-grade rather than enterprise-grade. 
+
+-On-premise and cloud?
+On-premise is the traditional networking approach, where the organization purchases and maintains all of their own hardware at one of their locations. Obviously, this presents many challenges as far as scalability and reliability.
+
+Cloud is a relatively new approach to networking that solves the scalability problem. Its name is a clue as to how it works, rather than hosting the client organization's network and services at a single location, cloud computing spreads infrastructure across multiple geographics locations in order to provide scalability, reliability, and high-availability. 
+
+Example: a natural disaster knocks out an organization's on-premise network, which may take months for them to recover. But if they used cloud computing, they could have their infrastructure spread across multiple geographic locations. Hence, even if a natural disaster did knock out one of their datacenters, they could continue to run their business from their backup location(s) without any interruption.
+
+Example: a startup is successful and needs to begin rapid expansion of their business. Rather than building upon their existing on-premise model, which could take several weeks or even months, they could perform a cloud migration in order to take advantage of the rapid-elasticity and scalability offered by such services. 
+
+COMPARE PHYSICAL INTERFACE AND CABLING TYPES
+
+-Single-mode fiber, multi-mode fiber, and copper?
+SMF is meant for long-range connections as it can only transmit one mode of light signal. When there are multiple modes of light signal being transmitted across the same cable, the disparate signals can commingle which leads to data loss, especially over long distances.
+
+MMF is a good medium for short-range connections, as it can transmit multiple modes of light signal over the same cable, which in turn means it supports multiple channels of communication.
+
+Copper cables are useful when you need more flexibility to move the cables around, during installation or after. They are more resilient than fiber, which has a glass core that can easily become damaged. Copper is not as fast as fiber, nor does it perform as well over long distances, although there are certain types of copper cables made for long-distance links. Copper is also more prone to electromagnetic interference than fiber. That said, copper is cost-efficient and in many cases can offer fairly similar performance as fiber.
+
+-Connections (ethernet shared media and point-to-point)?
+Ethernet shared media is mostly a component of old networks, before the advent of network switches when netadmins used hubs or simply cables. Before switches, the entire LAN was one big collision domain, and so the hosts had to be careful not to "speak" over one another. This process of deciding when to transmit data and when to wait was guided by CSMA/CD, AKA collision detection.
+
+Point-to-point connections are between two devices. They are often used in WANs, as these types of networks often consist of many consecutive point-to-point connections, e.g. two routers connected by SMF fiber cables several miles apart. By definition, these types of individual links have no intermediary devices between them. The individual link is dedicated to the two devices alone. P2P connections can also be wireless. 
+
+-Identify interface and cable issues (collisions, errors, mismatch duplex, and/or speed)?
+Collisions were namely in issue in the early days of ethernet, when the media was shared amongst the LAN devices and there was no separation of collision domains. Since the media was shared, if more than one device transmitted at the same time, the packets would collide and render the packets unusable. This is why CSMA/CD was developed, which helped prevent collisions and rectify them when they did occur. 
+
+Collisions are rarely an issue in modern networks, due in large part to the advent of switches. However, if you do suspect a collision has occurred in your network, there are ways to verify: networking monitoring tools such as WireShark or SNMP, checking the NICs for any damaged connectors or loose cables, verify cable state and quality, swap cables and interfaces, check for network congestion, verify network settings, monitor error counters, consult network logs, etc.
+
+Errors can be checked using the error counter, which keeps a tally of different subtypes of errors that have occurred on the device, e.g. CRC errors, input/output errors, collisions. You can also examine the log files on the device in question, or on the syslog server (or something similar). Running diagnostics on the device is also a good idea, many network interfaces have built-in tools for this purpose. 
+
+Duplex mismatch occurs when a particular interface is set to half-duplex and the interface it is trying to communicate with is set to full-duplex. Half-duplex was mostly used in the early days of networking when shared media was common, nowadays most networking devices support full-duplex and so it will often be the default setting. In order to check the duplex setting of a particular interface, you can show configuration commands such as "show interface" or "show config" (?). You can also check for errors and collisions, review log files---ENSURE AUTO-NEGOTIATION IS ENABLED, this is a feature that allows communicating interfaces to negotiate their duplex setting, in the case that one is set to half-duplex.
+
+Speed issues are fairly commonplace, as there are many different data transmission speeds available now, depending on hardware and preferences. If the speed settings on two communicating interface do not match, the faster one will usually just slow its packet processing to match the other. If you need to verify, you can also use commands such as "show interface". Auto-negotiation settings are also a factor here, as it is duplex and speed that get decided in that process. Additional verification methodologies are the same as for the previous entries.
+
+-Compare TCP to UDP?
+TCP is a connection-oriented protocol, which means it establishes a formal and acknowledged connection before any payload data gets transmitted. In addition to this, it uses different types of packets to communicate different stages of the data transmission process, e.g. SYN, ACK, SYN/ACK, RST, FIN. TCP also keeps track of the order in which packets were transmitted, as well as how many, in case they need to be reassembled upon arrival, and in case any of them were lost on the way. The process of establishing a TCP connection is called a Three-Way Handshake, because it involves the exchange of three core packets: SYN, SYN/ACK, and ACK.
+
+UDP is a connectionless protocol, unlike TCP it does not perform any kind of Handshake, nor is there any kind of acknowledgement of packets sent or received. Packets are simply sent to the destination, and the hope is that they make it to their destination! This makes it faster than TCP, but also more unreliable. Ergo, UDP is often used for communication modalities that require speed but not reliability, e.g. streaming, video chat. If you pay close attention in your next video chat, you'll see that some of the packets are getting dropped, i.e. the audio and/or video skips for a second or two---this means a packet, or a few, did not survive their trek across the internet! But for something like a video call, this isn't really an issue because the rest of the packets do arrive and the conversation goes on like normal, our brains just fill in the little blanks.
+
+-Configure and verify IPv4 addressing and subnetting?
+Honestly, explaining IP addressing and subnetting is beyond the scope of this question, but I know how to do it from my training.
+
+Generally, organizations want to rent only as many IP addresses (based on a range) as they are actually going to use from their ISP. Hence, when you are planning out your network and subnetting it, you should start with the largest subnets (i.e. the ones with the largest number of hosts) and move down from there to the smallest. 
+
+Verifying IPv4 addressing can be automated, ping and similar tools may be used to verify connectivity. DHCP is strongly recommended as it saves engineers and admins the time and effort involved in manual IP configuration. Alternatively, it can always be done manually, onerous as that is.
+
+Bitwise calculations when configuring IP addressing and subnetting are highly recommended, if not mandatory. 
+
+-Describe the need for private IPv4 addressing?
+There simply aren't enough IPv4 addresses to cover the billions of devices that are not connected to the internet. Ergo, in order to accomodate all of them within the existing IPv4 framework, private-public addressing had to be implemented. NAT/PAT is the protocol that converts private addresses to public, by way of a NAT interface, which is the internet-facing router interface. The router has a single IP host address that is accessible from the internet, and it in turn keeps a record of which devices in its LAN are assigned to which private IP addresses.
+
+The NAT router takes the outbound packet and replaces the private source IP with its own public IP address, then it creates a NAT translation table entry that consists of the source device's private IP and port number, as well as the public IP and a unique port number (session?). When the external server sends back a reply, the router looks up the information in its NAT translation table, replaces the destination public IP with the private IP of the original host, and then forwards the packet to it.
+
+Private IP address ranges:
+10.x.x.x
+172.16.x.x - 172.31.x.x
+192.168.x.x
+
+-Configure and verify IPv6 addressing and prefix?
+In IPv6, routers can automatically configure devices with IPv6 addresses using Router Advertisement messages. StateLess Address AutoConfiguration (SLAAC) can be used to allow devices to configure their IPv6 addresses automatically using information included in RA messages. RAs also include prefixes and network settings. Stateful DHCPv6 can be used to assign addresses manually, as well as configure additional parameter such as DNS servers and domain names. There are tools that can be used to facilitate the verification of IPv6 addressing, just as with IPv4. Alternatively, ping and tracert, etc., can be used to do it manually---or even a shell script that runs those commands.
+
+AAAA records in DNS are used for IPv6 addresses.
+
+"show ipv6 route" can be used to check routing tables for IPv6 addresses. 
+
+DESCRIBE IPv6 ADDRESS TYPES
+
+-Unicast (global, unique local, link local)?
+Unicast means there is a single source host and a single destination host. Global unicast is an address that is routable on the internet, they typically begin with the "2000::/3" prefix. Unique local addresses (ULA) are used for private, internal communication within an organization's network, they begin with "fc00::/7". Link-local addresses are used for communication within a single subnet or link and are not routable outside of it, they start with the "fe80::/10" prefix. 
+
+Prefix: IPv6 version of the network portion of the IP address, provides information about the host's LAN or subnet. Prefixes are typically represented using CIDR notation, e.g. "/10" means that the first 10 bits in the address are the prefix. Common prefix lengths include /64 for subnets and /48 for an organization's network; a prefix of /128 would correspond to a single host.  
+
+Link: a network segment or physical communication medium wherein devices can communicate with one another without a router, i.e. a single physical or logical network. A link-layer address is a MAC address, and are automatically configured on every IPv6 interface. IPv6 uses Neighbor Discovery Protocol (NDP) to discover and manage devices within the same link; including IPv6 to MAC address mapping, router discovery, and neighbor reachability detection. Devices in the same link all share the same prefix. Routers in a link periodically send out RAs in order to inform other devices in the link of network settings, e.g. link prefix, default gateway, etc.
+
+-Anycast?
+Anycast is used in IPv6 to send packets to the nearest of a set of devices which have been configured with the same IP address. Example: maybe there are multiple file servers configured in your organization's network, which spans the entire planet. There may be several file servers in the network that carry out the same role, but obviously you would want the user to communicate with the one that is closest to them, or the one that is currently available. Ergo, you might configure the file servers to all have the same IPv6 address, as well as to use Anycast, so that users who need to connect to these file servers will end up using the best option for them based on factors such as location and how busy the server is at that juncture. 
+
+-Multicast?
+Multicast is a feature of IPv6 that was intended to replace broadcasts in IPv4, which are comparatively inefficient. Multicast entails sending out packets from one source to multiple destinations, but not EVERY other host in the LAN, as broadcasts do. Multicast addresses, beginning with "ff00::/8", are used to decide which hosts should receive the transmission. The lower 112 bits of the MC address denote a specific multicast group. Devices interested in receiving multicast traffic join the respective multicast groups via Multicast Listener Discovery (MLD). Routers use multicast routing protocols in order to route the packets to their destinations, which are often in other links/subnets. MC is bandwidth-efficient because it sends a single copy of the packets to all recipients, rather than duplicating the data. IPv6 multicast addresses can have different scopes, e.g. global, link-local, site-local. MC traffic can be secured with encryption and authentication. 
+
+Site-local: type of address scope in early IPv6, now deprecated. 
+
+Please note that multicast can also be implemented in IPv4, although this is less common. 
+
+-Modified EUI 64?
+Technique used in IPv6 to create a 64-bit interface identifier portion of an IPv6 address based on a 48-bit Extended Unique Identifier or MAC address assigned to a NIC. This process involves splitting the EUI or MAC address down the middle, the first portion of which is the Organizationally Unique Identifier (OUI), which is a vendor-specific identifier assigned to the manufacturer; the remaining 24 bits are the extension identifier. Then, you insert "FF:FE" into the middle of the extension identifer. The 7th bit of the interface identifier (aka the "universal/local [U/L] bit") gets modified based on the original U/L bit in the MAC address: if it was originally 0, it remains 0; if it was originally 1, it gets inverted to 0. Finally, the 64-bit interface identifier is then assembled by combining the above elements in that order; then, the last step is to combine the prefix with the interface identifier for the entire 128-bit IPv6 address.
+
+Interface identifier: the "host portion" of an IPv6 address, where the prefix is the "network" portion. 
+
+Extended Unique Identifier (EUI): usually either 48-bit, in which case it is probably the device's MAC address. May also be 64-bit, in which case the Modified EUI-64 method may have been used. 
+
+-Verify IP parameters for client OS (Windows, Mac, Linux)?
+Windows: you can run the "ipconfig /all" command to see IP configuration in detail. There are also some GUI tools you can use, such as under "Network & Internet" under settings. 
+
+Mac: you can run the "ifconfig" command to see IP configuration. There are also GUI tools, such as "Network" under "System Preferences". 
+
+Linux: depending on your distribution, you can run "ifconfig" or "ip link" or "ip a". Some Linux distributions may have a GUI tool, such as Network Manager.
+
+DESCRIBE WIRELESS PRINCIPLES
+
+-Nonoverlapping Wi-Fi channels?
+In 2.4 GHz channels, the recommended nonoverlapping channels are 1, 6, and 11. Channels in 2.4 GHz Wi-Fi are about 20 MHz wide, so if one isn't careful these channel frequencies can overlap and cause interference with one another. 5 GHz Wi-Fi has many more channels available with much wider channel frequencies, which is why it is recommended for users who prioritize preventing signal interference over high signal strength (since 5 GHz is more prone to attenuation). 5 GHz channels are between 20-160 MHz wide, common nonverlapping channels are 36, 40, 44, 48. 5 GHz channels vary by region, but seem to span the range of 36 to 165. Since 5 GHz channels can be very wide, it is important to mind the channel width when configuring this type of Wi-Fi.
+
+-SSID?
+Service Set IDentifier, the name of a WAP that gets broadcasted to all Wi-Fi-enabled devices in the vicinity (unless configured otherwise), e.g. "Kumar's WiFi". This helps endusers connect to the correct network, however hackers often spoof the SSID of a target network in order to get users to connect to the hacker's WAP. 
+
+Many SOHO routers are able to establish multiple networks with their own respective SSIDs, this feature is most commonly used for the creation of a guest network with its own security settings, separate from the primary network.
+
+-RF?
+Radio Frequency, the range of electromagnetic frequencies used for wireless communication and data transmission. It encompasses a broad spectrum of frequencies, and is essential in Wi-Fi, cellular networks, Bluetooth, RFID, etc. RF is part of the electromagnetic spectrum, occupying the range of frequences below microwaves. Common RF frequency bands used in wireless communications are 2.4 and 5 GHz, as well as the cellular bands used in mobile networks, e.g. 4G LTE, 5G. In RF communications, information is encoded onto carrier waves through modulation techniques. Wireless devices typically have RF transceivers that they use to send and receive data over the airwaves. 
+
+-Encryption?
+Means to encode the data in such a way that it becomes incomprehensible to anyone except the intended recipient. The data is encoded using mathematical algorithms and cryptographic techniques, which essentially run the data through a series of steps that transforms it into ostensible gibberish. However, the steps can be reversed using a decryption key along with the encryption algorithm, which reverts the data back into its original form. Because of this, it is very important that the key be kept secret and secure; whereas the algorithm itself is most often already well known, and there is no need to keep it secret. Common encryption algorithms include AES, DES, and RSA. 
+
+A hash is similar to encryption, except that it is irreversible---it is not *intended* to be reversed. Hashes are often used for secure storage of passwords, that way if a hacker does gain access to the system file(s) that store the password hashes, they will not be able to make sense of them anyway.
+
+-Explain virtualization fundamentals (server virtualization, containers, VRFs)?
+Server: these types of computers are typically thought of as physical devices, but it is more than possible to run fully-functioning virtual servers. You don't even necessarily need a special hypervisor, they can be run on free software such as VMWare Workstation, VirtualBox, and Hyper-V. If everything is configured correctly and there is adequate underlying infrastructure (e.g. processor, RAM), virtual servers can often do as good of a job as a hardware server would. In the case that multiple server VMs are running on the same host, the VMs are isolated from one another at the hardware layer. Another key feature of VMs is that any version of the server OS can run on it, which means it can support legacy applications that may no longer run on newer versions of the server OS; and these legacy OSes may not run on newer hardware. 
+
+Type 1 hypervisors: Bare-metal, run at the hardware level and do not require an underlying OS to run the VMs. Examples: VMWare vSphere/ESXi, Hyper-V, KVM.
+
+Type 2 hypervisors: Hosted, run on top of the OS. Examples: Oracle VirtualBox and VMWare Workstation.
+
+Containers: these are lightweight virtual systems that run in software such as Docker. They are NOT virtual machines, they were specifically designed to be more compact and lightweight than VMs. They basically run different environments, most often used by developers in order to control for those system variables, and to be able to get a consistent environment to develop and test in no matter where they are or what system they are using. Examples of Docker containers: Python, Debian, Ubuntu, Arch, Windows. 
+
+The primary purpose of containers is to package and run applications. Container images include the application's code and dependencies. The container runtime is responsible for executing and managing containers, it interacts with the host's OS kernel to provide isolation and resource management. A container image is a lightweight, read-only package that contains the application code, runtime, libraries, and configurations; images are the blueprint for creating containers. Container orchestration platforms, such as Kubernetes, automate the deployment, scaling, and management of containerized applications across clusters of servers. Like VMs, containers provide filesystem and process isolation, which prevents them from interfering with one another even when they are running on the same hardware. Container images can be versioned, which allows users to roll back to previous versions as needed. Use cases for containers: microservices, DevOps and CI/CD, horizontal webapp scaling, legacy application modernization, big data and AI, etc.
+
+VRF: Virtual Routing and Forwarding, a technology used to create multiple, isolated routing domains within a single network infrastructure, e.g. a router or L3 switch. Each VRF functions as an independent and isolated routing table, which allows different network segments or customers to have their own routing domains while sharing the same networking hardware. Routes in one VRF are not visible or accessible to other VRFs; traffic in a VRF is also isolated from other VRFs, even if they are running on the same hardware. Each VRF is capable of running its own routing protocols without affecting the others. Inter-VRF routing is configurable. MPLS (MultiProtocol Label Switching) can be used to build complex VPNs that use VRFs to segregate customer traffic. 
+
+Routing domain: AKA autonomous system (AS); a collection of networked systems that operate common routing protocols and are under the control of the same administrator(s). 
+
+DESCRIBE SWITCHING CONCEPTS
+
+-MAC learning and aging?
+MAC learning is a fundamental role of network switches, as it relies upon MAC addresses to route packets within a LAN. And L2 switches keep MAC address tables, which bind MAC addresses to switchports. L2 switches use LAN packets to derive the MAC addresses and switchports needed to build their MAC tables. The switch inspects incoming packets for the source MAC address, as well as the switchport it came from.
+
+By default, entries in the MAC tables on switches only persist for so long before they are automatically cleared. This is done to make them more dynamic, to be able to keep up with changes occurring on the LAN. The lifespan of the MAC table entry is based on whether that device is transmitting packets or not. After a period of inactivity (this timespan is configurable) from that device has elapsed, the entry is cleared and the MAC learning process begins anew. 
+
+-Frame switching?
+The process of forwarding data frames (L2 packets?) from one network device to another based on the destination address, e.g. router/switch to workstation. A MAC address table, which maps MAC addresses to switchports, is built by the network devices based on packets received by them directly from the source. When a frame is received by the switch, it looks at the destination MAC address and then looks at its MAC table to see which switchport is associated with that address. Switches also receive and process broadcast and multicast frames, which it is fully capable of processing. 
+
+-Frame flooding?
+Switches can forward, filter, or flood the frames they receive. To flood a frame means to transmit it out of all switchports except the one from which it was received. Switches make the decision to flood a particular frame when they do not have an entry in their MAC tables corresponding to the destination MAC address. By doing this, they are hoping they can reach the device and, soon after, obtain its MAC address by analyzing its reply frame. An unknown unicast frame always gets flooded (on a Cisco switch). Broadcast frames always get flooded, the destination MAC address for a broadcast is FF-FF-FF-FF-FF-FF.
+
+FILTERING OCCURS WHEN A SWITCH RECEIVES A FRAME AND HAS MAC TABLE ENTRIES FOR BOTH THE SOURCE AND DESTINATION, HOWEVER THE SOURCE AND DESTINATION ARE BOUND TO THE SAME SWITCHPORT.
+
+SWITCHES NEVER TRANSMIT A FRAME OUT OF THE SAME SWITCHPORT FROM WHICH IT WAS RECEIVED.
+
+-MAC address table?
+A MAC address table is created and maintained by switches. MAC learning is the process of creating MAC address tables, which consist of MAC-to-switchport bindings, which are derived from network frames received by the switch. MAC aging the process by which these entries are cleared in order to stay up-to-date on the status of the network; after a device connected to a switchport is inactive (i.e. not sending packets) for a predetermined amount of time, the MAC table entry for the device is cleared and the process of MAC learning begins anew.
+
+NETWORK ACCESS
+
+CONFIGURE AND VERIFY VLANs (NORMAL RANGE) SPANNING MULTIPLE SWITCHES
+
+-Access ports (data and voice)?
+Access ports are specific switchports on a VLAN-enabled switch that all belong to the same VLAN. Endpoints then connect to one of these ports in order to gain access to the VLAN. The two types of access ports are Data and Voice, which are exactly what they sound like; i.e. Data ports transmit data and Voice ports transmit VoIP packets. Voice access ports typically belong to both the Data and Voice VLANs. Voice access ports prioritize voice traffic (since it is time-sensitive) using QoS.  
+
+-Default VLAN?
+AKA "native VLAN" or "untagged VLAN, the default VLAN is the first VLAN to appear after VLANs have been enabled on the switch. It is also the VLAN that devices belong to upon connection to a VLAN-enabled switch. The purpose of the default VLAN is to provide connectivity to devices that are not explicitly assigned to any specific VLAN. The VLAN number of the default is 1, however tags are not used for routing to/from the default VLAN; the frames simply remain untagged and the switch knows they belong to the default VLAN, whatever its number is. For security reasons, it is recommended to use separate VLANs for different groups of devices. VLAN hopping is when an attacker attempts to gain access to other VLANs by exploiting the default VLAN's configuration settings. It is important to make sure both ends of a trunk link have the same native VLAN configured.
+
+THE NATIVE VLAN ON A TRUNKED LINK IS NOT NECESSARILY THE SAME AS THE DEFAULT VLAN ON AN ACCESS PORT.
+
+By omitting the VLAN tags, NATIVE VLANs allow for support by older devices which do not support VLAN technology.
+
+-Inter-VLAN connectivity?
+Layer-2 switches are not able to route packets between separate VLANs because, technically, those are two different subnets. Just like in a physical LAN, a router is needed to route packets between LANs. You can connect a router configured with subinterfaces to the VLAN switch in order to accomplish inter-VLAN connectivity; or you can use a Layer-3 switch, which is able to do the job of a router in addition to that of a switch. If using a router with subinterfaces, each subinterface is configured under a physical interface, and each subint is associated with a specific VLAN. Some inter-VLANs can even run dynamic routing protocols such as OSPF and RIP. Every VLAN should have a default gateway, usually the subinterface on the router. ACLs can be used to control traffic between the separate VLANs. 
+
+Router on a stick: in this configuration, a single physical router interface is connected to a switchport and multiple VLANs are configured on the router's subinterfaces. The router then routes traffic between these VLANs. 
+
+CONFIGURE AND VERIFY INTERSWITCH CONNECTIVITY
+
+-Trunk ports?
+These are used to establish multiple logical links within a single physical connection in VLAN networking. The actual physical switchports can be configured as trunk ports in order to allow traffic from multiple VLANs to traverse the cable. To keep track of which frames belong to which VLAN, tags are included in the frames that denote which VLAN the frame belongs to; if a frame is untagged, that means it belongs to the native VLAN, whatever may be its number. Netadmins configure VLANs to specify which VLANs are allowed to traverse the port. Trunk ports often support QoS to prioritize certain types of traffic over others.
+
+An ACCESS PORT is a switchport that is configured to allow access to one VLAN. ACCESS PORTS do not use VLAN tagging because they do not need it, they provide access to a single VLAN. TRUNK PORTS provide access to multiple VLANs.
+
+-(IEEE) 802.1q?
+Standard that defines VLAN tagging. A special header gets appended to the Ethernet frames that denotes the VLAN to which the device and its outgoing packets belong. The VLAN tag itself is 32 bits long, the tag includes a 12-bit VLAN ID (VID). 
+
+-Native VLAN?
+This is the VLAN on a trunk port in which the packets remain untagged. 
+
+DEFAULT VLAN: the VLAN on an ACCESS PORT to which a device gets automatically assigned upon connecting to a switchport which has not been configured for a specific VLAN. In many cases, its VLAN ID (VID) will be 1. Devices in the default VLAN send and receive untagged frames. The default VLAN provides network connectivity to devices which have not been assigned to a specific VLAN. 
+
+-Configure and verify Layer 2 discovery protocols (Cisco Discovery Protocol and LLDP)?
+CDP: Proprietary networking protocol developed by Cisco, allows Cisco devices to discover and gather information about directly-connected neighboring devices on a LAN. CDP operates at Layer 2 and is not routable, it only works within a LAN. Information gathered includes device type and capabilities, IP address, interface description, and port information. Discoverable devices include switches, routers, access points, and more. CDP also provides information about the physical topology of the network. 
+
+To configure CDP, you would go into "Router(config)#" mode and run the command "cdp run". You can also configure it on a specific interface by going into "Router(config-if)#" mode and running the command "cdp enable". To display CDP information, you can go into "Router#" mode and run the command "show cdp neighbors". There are many more commands available related to CDP.
+
+LLDP: Link Layer Discovery Protocol, this is vendor-neutral. It is similar to CDP, except that it will work with equipment from other vendors. Like CDP, it is used to discover neighboring devices within a LAN and gather information about them, as well as the physical network topology. LLDP updates are sent out periodically to stay abreast of changes in the network. 
+
+To configure global LLDP on a Cisco switch, you can go into "Switch(config)#" mode and run the command "lldp run". To enable it on a specific switchport, you can go into "Switch(config-if)#" mode and run the command "lldp transmit" and then "lldp receive". To display neighbor information, you can go into "Switch#" mode and run the command "show lldp neighbors". 
+
+-Configure and verify (Layer 2/Layer 3) EtherChannel (LACP)?
+EtherChannel: technology used to group multiple physical ethernet interfaces into one logical interface. Benefits include increased bandwidth, improved redundancy, and load balancing. EC can operate at both L2 and L3, and hence there exist both L2-EC and L3-EC. L2 variant operates at L2/DLL, L2-EC supports load balancing. LACP and PAgP (Port Aggregation Protocol, a Cisco proprietary protocol) are common in L2-EC. 
+
+L3-EC is associated with routing protocols such as HSRP (Hot Standby Router Protocol), VRRP (Virtual Router Redundancy Protocol), and ECMP (Equal-Cost Multi-Path). L3-EC is commonly implemented in routing scenarios in which redundant paths need to be aggregated. 
+
+LACP: Link Aggregation Control Protocol. 
+
+INTERPRET BASIC OPERATIONS OF RAPID PVST+ SPANNING TREE PROTOCOL
+
+PVST+: Per-VLAN Spanning Tree Plus, Cisco proprietary extension of STP that provides a separate spanning tree instance for each VLAN in a network. PVST+ allows netadmins to create a spanning tree topology for each VLAN in a multi-VLAN network. A separate instance of STP is created for each VLAN configured in the network. This allows each VLAN to have its own root bridge, designated ports, and blocking ports. Having a unique spanning tree for each VLAN means only necessary VLANs are affected by spanning tree changes; whereas in traditional STP, changes in one VLAN could affect the entire network. PVST+ supports load balancing across multiple VLANs by distributing traffic and spanning tree calculations across VLANs. PVST+ is compatible with the original IEEE 802.1d STP, which makes it compatible with devices which do not support PVST+. PVST+ is often used with other Cisco proprietary protocols, e.g. Rapid PVST+, MST (Multiple Spanning Tree). 
+
+-Root port, root bridge (primary/secondary), and other port names?
+Root port: a port on a non-root bridge (i.e. switch) that provides the least-cost path to the root bridge. It is the port on a non-root bridge (switch) that provides the shortest path to the root bridge. This path is determined based on the cost of the links between the non-root bridge and the root bridge; the port with the lowest cost becomes the root port. As it is the port "closest" to the root bridge, the root/designated port becomes responsible for forwarding traffic on that network segment. The root port is critical in STP because it ensures there is a loop-free path from every switch in the LAN to the root bridge. If there is a network change or link failure, the root port may need to be recalculated. The root port goes through different states in the STP process: blocking, listening, learning, and forwarding. The root port helps to prevent loops by ensuring there is always a single best path to the root bridge. 
+
+Root bridge: the central reference point in a spanning tree topology and algorithm, the top-level switch in the spanning tree hierarchy. The root bridge's role is to ensure that a loop-free, tree-like topology is formed. The root bridge is identified by its unique Bridge ID, which consists partly of the switch's MAC address and a priority value; the switch with the lowest Bridge ID becomes the root bridge. The root bridge has the lowest path cost to itself. The root bridge is directly connected to designated ports on all other switches; designated ports are the ports that are part of the spanning tree topology, they are the ports that forward traffic. By default, the bridge priority is set to a lower value on the root bridge, making it more likely to become the root. The root bridge periodically sends out Bridge Protocol Data Units (BPDUs) to maintain the stability of the spanning tree. When changes occur in the network, the root bridge helps regenerate the spanning tree topology. 
+
+BPDU: specialized frame used in STP, BPDU frames are exchanged amongst LAN switches in order to create a spanning tree topology. BPDU frames contain information about the source switch, e.g. Bridge ID, priority, MAC address, path cost to root bridge. May contain information about the sender's priority for different STP parameters, e.g. the switch may advertise its priority for becoming the root bridge or for determining which ports are designated and non-designated. BPDU frames are sent periodically by switches (the "Hello mechanism") to announce their presence and the state of their ports. BPDUs are sent out on all active ports to reach neighboring switches. 
+
+Path cost: the cumulative cost of the links from the sending switch to the root bridge, based on the speed and bandwidth of the links. 
+
+-Port states (forwarding/blocking)?
+Switchports in STP are either in forwarding or blocking state (unless the spanning-tree topology is currently being built). Forwarding state means the switchport is sending and receiving frames; whereas Blocking state means the switchport has been disabled as part of the spanning-tree topology. There is a single best path to the root bridge that gets configured based on cost, and all other routes are eliminated by blocking certain ports on the LAN switches; this is the essence of STP. Whether a port is designated to be forwarding or blocking is based on the cost to the root bridge as well as its priority relative to other ports. 
+
+Blocking is technically a temporary state until a network change or link failure occurs. A blocking port is a non-designated port. 
+
+THE ROOT BRIDGE HAS FORWARDING PORTS ON ALL ITS PORTS.
+
+In RSTP and other variants, the port states may be different.
+
+-PortFast?
+Feature in Cisco devices used to optimize the spanning tree convergence process by bypassing the usual spanning tree states for certain ports. PortFast is primarily used on access ports (which connect to enduser devices), rather than switch-to-switch links. It allows the access port to transition from the Blocking state to the Forwarding state rapidly, effectively bypassing the Listening and Learning states of the spanning tree process; this is helpful for devices that cannot afford to wait for the usual spanning tree delay. This acceleration has no effect on the loop prevention functionality of STP. If a device connected to a PortFast-enabled port starts to act as a switch, generating BPDUs, the port is automatically put into a non-operational state to prevent loops.
+
+PortFast can be enabled on individual switchports, not just all of them. The main benefit of PortFast is to reduce the time it takes for user devices to regain network connectivity after a switch is powered on or a link is brought up; without, access ports would have to go through all of the usual port states (Blocking, Learning, Listening, Forwarding). It is important to only use PortFast on appropriate ports, as using it on switch-to-switch links or ports that could create loops could cause network instability, or even failure. PortFast has been largely replaced by variants of STP, such as RSTP or MSTP.
+
+PortFast is said to enable "edge ports". 
+
+Edge port: port at the edge of a network that connects to end devices; these types of ports are eligible for PortFast. Edge ports are considered safe for PortFast because they are not expected to create loops in the network. 
+
+-Describe Cisco Wireless Architectures and AP modes? 
+Cisco offers many WIRELESS ARCHITECTURES to meet the needs of their clients: Autonomous, Centralized, Cloud-based, Converged access.
+
+Autonomous: Each AP operates independently and is configured individually, suitable for small to medium-sized networks. Initial configuration is easy, but not very scalable.
+
+Centralized: More scalable and manageable; all APIs are managed by a central controller, with features such as seamless roaming, load balancing, and centralized security policies. Cisco WLCs are a key component here.
+
+Cloud-based: Cisco offers cloud-managed wireless solutions through Meraki, a company they acquired. APs are managed through a cloud-based dashboard; which simplifies network management, monitoring, and control. Meraki APs are often used for this.
+
+Converged access: integrates wired and wireless networks, which makes it easier to manage and renders a consistent experience in both connection types.
+
+ACCESS POINT modes: local, FlexConnect, Mesh, Monitor, Rogue detector, sniffer, Office Extend; these are operational modes.
+
+Local: AP operates as a standalone device and is managed individually, common in autonomous architectures.
+
+FlexConnect: the AP can switch between operating autonomously and being managed by a central controller (WLC), useful for branch office deployments and scenarios where WAN link stability is a concern. 
+
+Mesh: Cisco APs can operate as mesh APs to provide wireless connectivity in areas where laying Ethernet cables may not be possible. Mesh APs form a wireless *backhaul network* to connect with the wired network through other APs.
+
+Backhaul network: the portion of a telecomms network that connects the core or backbone network to the subnetworks or access networks. It plays a crucial role in transporting data, voice, and other comms traffic from local APs (e.g. cell towers), Wi-Fi APs, or remote offices, back to a central/core location where it can be routed to its destination.
+
+Monitor: used for scanning and monitoring wireless traffic without participating in data forwarding, useful for troubleshooting and analyzing network performance.
+
+Rogue detector: APs in this mode continuously scan for rogue APs and clients, identifying threats and unauthorized devices on the network.
+
+Sniffer: allows APs to capture and analyze wireless frames for troubleshooting and monitoring.
+
+OfficeExtend: enables remote workers to securely connect to the corporate network by extending the wireless network to their home or remote locations.
+
+-Describe physical infrastructure connections of WLAN components (AP, WLC, access/trunk ports, LAG)?
+Cisco APs typically use PoE, they can be connected to PoE-capable switches or PoE injectors; they are also connected to the network via Ethernet cables, with usually an RJ45 connector. The AP is connected to a network switch, which can in turn be configured as an access or trunk port.
+
+WLCs are used to manage and control multiple APs in a centralized manner, they are connected to the network. WLCs are connected to the network using Ethernet cables, typically via switches with access ports that are part of the same VLAN as the APs.
+
+Access ports are used to connect APs and WLCs to the network. APs are usually configured to belong to a specific VLAN, and the connected devices (APs, WLCs) are assigned to this VLAN for their data traffic. 
+
+Trunk ports are used when multiple VLANs need to be carried over a single switchport. WLCs often use trunk ports to manage multiple VLANs for various SSIDs and user groups.
+
+LAG is Link Aggregation Group, AKA EtherChannels or Port Channels. These are used to combine multiple physical Ethernet connections into a single logical connection. Example use case: you can configure a LAG between a WLC and a switch to ensure that if one physical link fails, the other can continue carrying traffic without interruption.
+
+-Describe AP and WLC management access connections (Telnet, SSH, HTTP, HTTPS, console, and TACACS+/RADIUS)?
+Telnet: Cisco APs can be accessed and managed using Telnet, however this is not recommended as Telnet transmits all data in plaintext. Cisco WLCs may also support Telnet, but again it is not recommended.
+
+SSH: Cisco APs can be accessed securely using SSH, which unlike Telnet does use encryption; commonly used for configuration and troubleshooting. Cisco WLCs also support SSH, which is the recommended method for accessing them. 
+
+HTTP: some Cisco APs may provide a web-based management interface using HTTP, which allows admins to configure and monitor APs through a web browser. However, this is not recommended as HTTP traffic is unencrypted. Cisco WLCs also offer a web-based management interface, but again using HTTP is not recommended.
+
+HTTPS: unlike HTTP, HTTPS is encrypted and ergo it is the recommended protocol for web-based AP and WLC configuration and management.
+
+Console: serial or USB; Cisco APs can be configured and managed via the physical console port. In some models, a USB console port may also be available. Cisco WLCs can also be accessed via their physical console ports.
+
+TACACS+/RADIUS: Cisco APs and WLCs can be configured to use TACACS+ or RADIUS for centralized authentication, authorization, and accounting.
+
+-Interpret the wireless LAN GUI configuration for client connectivity, such as WLAN creation, security settings, QoS profiles, and advanced settings?
+
+WLAN creation: SSID, encryption protocol (WPA2, WPA3, PSK, Enterprise), VLAN assignment.
+
+Security settings: authentication (PSK, 802.1x), encryption (AES), RADIUS/TACACS+ integration, Guest access (separate WLAN with captive portal and/or authentication). 
+
+QoS profiles: define QoS profiles to prioritize certain types of traffic (e.g. VoIP, video) over the WLAN to ensure their corresponding apps get enough bandwidth and low latency. You can also assign DSCP (Differentiated Services Code Point) values to packets to indicate their priority and influence how routers and switches treat them.
+
+Advanced settings: band selection (2.4 or 5 GHz, *band steering*), channel selection (or auto-channel selection), roaming (seamless client), power and transmit settings (important in high-density environments), client isolation (restricts clients from communicating with each other), captive portal, load balancing (distribute clients among multiple APs), rate limiting (set maximum data rates for the WLAN, prevents bandwidth hogging).
+
+Band steering: technique used in WLANs to encourage client devices to connect to the most appropriate frequency band, typically 5 GHz over 2.4 GHz. 
+
+IP CONNECTIVITY
+
+INTERPRET THE COMPONENTS OF ROUTING TABLE
+
+-Routing protocol code?
+AKA 'routing protocol identifier' or 'route type', a numeric or alphanumeric code used in a routing table to identify the source or method by which a specific route was learned. Routing protocol codes vary depending on the routing protocol and the device or OS in use. 
+
+Examples: C means Connected, a network or host directly connected to the router; these routes are automatically added to routing table and have the most specific prefix length. S means static, these are manually configured by the netadmin rather than via dynamic routing protocols. R means RIP, these are routes that were added by way thereof. D means EIGRP, which is a Cisco proprietary DRP. O means OSPF, B means BGP, H means HSRP, etc.
+
+-Prefix?
+A network or subnet represented by an IP address and a subnet mask (i.e. prefix length). Defines a range of IP addresses that share a common networking or routing destination. Routing tables use prefixes to determine where to forward packets. The longer the subnet mask / prefix, the more specific the route is, which causes the router to favor that route over routes with shorter prefixes (because they are less specific, and ergo less accurate). Routing tables consist of multiple entries/routes, each with a prefix and associated information, e.g. next hop, outgoing interface, routing protocol, etc.
+
+-Network mask?
+AKA subnet mask, this is a value that when combined with the IP host address will render the IP network address to which the host belongs. Like IP addresses, it can be expressed bitwise or in decimal notation. If you are performing calculations with it, generally bitwise notation is recommended. 
+
+There is a lot more to subnet masks than I've explained above, and it is necessary to get hands-on experience with them; including subnetting, calculating IP network addresses using the IP host address, etc. But that is beyond the scope of this study guide. 
+
+-Next hop?
+This part of the routing table denotes the next hop the packet will be sent to as part of a particular route. The next hop can be expressed as an IP address or an exit interface on the local router.
+
+Example: your LAN's edge router in your SOHO network will probably have your ISP router as its next hop, specifically the interface on the ISP router that faces your network. 
+
+-Administrative distance?
+A numeric metric found in routing tables that denotes the trustworthiness of a particular routing table entry. A value of 0, which corresponds to a directly connected network, is the most reliable; whereas a positive number denotes a less reliable entry, with the less reliable entries being the furthest from 0. There are no negative values when it comes to administrative distance, the usual range of values is from 0 to 255. Administrative distances can be manually entered or reconfigured by netadmins.
+
+0: directly connected network;
+1: static route, i.e. entered manually by admin;
+2-100: typically IGPs (Interior Gateway Protocols), such as OSPF and EIGRP, have values in this range;
+101-200: typically EGPs (Exterior Gateway Protocols), such as BGP, have values in this range; 
+
+-Metric?
+Numerical value assigned to each route that indicates the cost or distance associated with using that route. Metrics are used by routers and routing protocols to determine the most favorable or efficient path to reach a particular destination. The value of the metric can vary depending on the routing protocol used, e.g. some protocols use hop count while others use a more complex and holistic analysis that includes bandwidth, delay, reliability, etc. Netadmins can sometimes manually adjust cost values and/or the metric to influence routing decisions.
+
+RIP: hop count;
+OSPF: link cost;
+EIGRP: combination of factors;
+BGP: path attributes;
+
+METRIC IS NOT THE SAME THING AS ADMINISTRATIVE DISTANCE! Metric quantifies the "cost" of using a particular route, whereas AD is a measure of the reliability/trustworthiness of a routing table entry.
+
+-Gateway of last resort?
+AKA default route, which is used as a last resort in case the router cannot find any other routes in its routing table. The default route is expressed as 0.0.0.0/0, which means that it is capable of matching any destination address. However, it is not usually the *best match*, which is what a router always looks for in its entire routing table before selecting a route. The gateway of last resort is typically set as the default gateway of the router. It is the router's exit point for traffic destined to any network not listed in the routing table. It is commonly used to provide an internet connection to for devices on a LAN. The default route can be configured as a static route or learned via a dynamic routing protocol; if the latter, the default route can be learned from a neighboring router that serves as the exit point to external networks. In high-availability and redundant network configurations, multiple routers may be configured with a gateway of last resort to ensure traffic can be rerouted as needed.
+
+DETERMINE HOW A ROUTER MAKES A FORWARDING DECISION BY DEFAULT
+
+-Longest prefix match?
+AKA IP network address, the network portion of a host's IP address. Routers scan their routing tables for the entry with the highest possible number of network bits that match the destination's network IP. This is because the destination network's router will be handling the intranet packet transmission anyway, so we don't need to worry about reaching the destination host per se.
+
+Routing table entries are stored in a hierarchical fashion, with the most specific entries at the top and less specific entries at the bottom. 
+
+-Administrative distance?
+AD is a measure of the trustworthiness/reliability of any given routing table entry, with 0 being the most trustworthy. Routers will select the most trustworthy routes by default, depending on other factors (prefix match, metric, etc.). If two matching routes with the same AD value are in the table, the router may decide to use both of them for load balancing (again, this depends on other factors). 
+
+-Routing protocol metric?
+The routing protocol metric is a value used to denote the "cost" of a particular route. Example: RIP is a protocol that uses hop count as its metric, so multiple matching RIP routes in a routing table will have different metric values based on their respective hop counts; in this scenario, the router will most likely select the RIP route with the lowest number of hop counts. In cases where multiple routes have the same routing metric, the router may decide to use them all for load balancing.
+
+CONFIGURE AND VERIFY IPv4 AND IPv6 METRIC?
+
+-Default route?
+
+Configure default route:
+1. Enter privileged exec mode by running "enable";
+2. Enter global configuration mode by running "configure terminal";
+3. Configure the default route by running "ip route 0.0.0.0 0.0.0.0 [next-hop IP address]"; alternatively, you can specify an exit interface instead of the next-hop IP;
+4. Exit global configuration mode by running "end";
+5. Save the configuration to ensure it persists after rebooting by running "write memory";
+
+Verify default route:
+1. Run the command "show ip route";
+2. To view information about the default route specifically, you can run "show ip route 0.0.0.0";
+3. You can perform a ping test to an external IP (e.g. the Google DNS servers) to verify the default route works;
+
+-Network route?
+
+Configure network route:
+1. Enter privileged exec mode by running "enable";
+2. Enter global configuration mode by running "configure terminal";
+3. Run the command "ip route [destination-network] [subnet-mask] [next-hop-IP]"; example: "ip route 192.168.2.0 255.255.255.0 10.0.0.1";
+4. Exit configuration mode by running "end";
+5. Save the configuration by running "write memory";
+
+Verify network route:
+1. Run the command "show ip route";
+2. To view information about a particular route, you can run the command "show ip route [destination-network]";
+3. Run a ping test with the destination IP of a host within the target network;
+
+-Host route?
+A host route directs traffic to a specific host rather than a target network.
+
+Configure host route:
+1. Enter privileged exec mode by running "enable";
+2. Enter global configuration mode by running "configure terminal";
+3. Run the command "ip route [host-IP] [subnet-mask] [next-hop-IP]"; Example: "ip route 192.168.1.100 255.255.255.255 10.0.0.1";
+4. Exit configuration mode by running "end";
+5. Save the configuration by running "write memory";
+
+Verify host route:
+1. Run the command "show ip route";
+2. To view information about the host route, you can run the command "show ip route [host-ip]";
+3. Run a ping test with the destination IP of the host;
+
+-Floating static?
+A static route configured with higher administrative distance than other routes in the routing table. It is often used as a backup or failover route, which the router will use only if its other routes (static or dynamic) are not available. When a floating static route is configured, it is given a much higher AD than standard static routes, which usually have an AD of 1; this makes the floating route less preferred than the other static routes, and even many dynamic routes. In other words, floating static routes are there to provide failover and redundancy. A floating static route is configured manually by the netadmins. Floating static routes can also be integrated with dynamic routing protocols, e.g. you can configure a FSR to be used in the case that an OSPF or BGP route becomes unavailable. 
+
+Configure floating static route:
+1. Enter privileged exec mode by running "enable";
+2. Enter global configuration mode by running "configure terminal";
+3. Run the command "ip route [destination-network] [subnet-mask] [next-hop-IP] [AD]"; Example: "ip route 0.0.0.0 0.0.0.0 10.0.0.2 200";
+4. Exit configuration mode by running "end";
+5. Save the configuration by running "write memory";
+
+Verify floating static route:
+1. You can run "show ip route";
+2. You can also view details about the FSR specifically by running "show ip route [destination-network]";
+3. Run a ping test to the destination IP address;
+
+CONFIGURE AND VERIFY SINGLE AREA OSPFv2
+
+-Neighbor adjacencies?
+NAs are the relationships between OSPF routers within the same OSPF area. These NAs are established to exchange routing information, e.g. link-state advertisements (LSAs), and to sync their link-state databases. Single-area OSPFv2 networks have all routers operating within a single OSPF area (Area 0 or a non-zero area). 
+
+OSPF routers use the OSPF Hello Protocol to discover and establish neighbor adjacencies. This protocol allows routers to find potential OSPF neighbors on their directly connected networks. When OSPF routers on the same network segment receive OSPF Hello packets from each other, they consider each other as potential neighbors. To actually become neighbors, they must meet specific criteria, e.g. matching area ID, network type, and authentication.
+
+OSPF entails different states the routers must go through during the neighbor adjacency establishment process: Down, Attempt, Init, 2-Way, Exstart, Exchange, Loading, and Full. The neighbor adjacency process culminates in the Full state, in which routers can finally begin exchanging routing information. Once the NAs are established, routers can begin exchanging LSAs (containing network topology and routing information) to sync up their link-state databases. 
+
+OSPFv2 supports various network types, e.g. broadcast, point-to-point, non-broadcast multi-access (NBMA), point-to-multipoint, etc.; the Hello Protocol and NA process are simply adapted to the network type.
+
+Configure neighbor adjacencies:
+1. Enter privileged exec mode by running "enable";
+2. Enter global configuration mode by running "configure terminal";
+3. Enable OSPF on the router by running "router ospf [process-ID]" where process-ID is a local identifier on the router for the OSPF process;
+4. Set the router ID for the router by running "router-id [RID]" where RID is a unique IP address within the OSPF routing domain";
+5. Define OSPF areas on the router by running "network [network-ID] [wildcard-mask] area [area-ID]" where network-ID is the network address for the directly connected network, wildcard-mask is the wildcard mask used to match the network, and area-ID is the OSPF area number (0 or otherwise);
+6. Exit global configuration mode by running "end";
+7. Save the configuration by running "write memory";
+
+Verify neighbor adjacencies:
+1. Run the command "show ip ospf neighbor" to view OSPF neighbors and their router IDs, also whether they are in the Full state or not;
+2. Run the command "show ip ospf interface" to view information about OSPF-enabled interfaces, including the designated router (DR) and backup designated router (BDR);
+3. Run the command "show ip route" to view the OSPF routing table, including which routes were learned via OSPF;
+4. Run a ping test with the destination IP(s) of the router's OSPF neighbors;
+
+-Point-to-point?
+PtP connections are a type of network where there are only two routers directly connected to one another, without any intermediary devices in between, e.g. switches. These connections are commonly used for WANs. 
+
+Configure point-to-point connection:
+1. Enter privileged exec mode by running "enable";
+2. Enter global configuration mode by running "configure terminal";
+3. Enable OSPF on the router by running "router ospf [process-ID]" where process-ID is a local identifier on the router for the OSPF process;
+4. Set the router ID for the router by running "router-id [RID]" where RID is a unique IP address within the OSPF routing domain";
+5. Define OSPF areas on the router by running "network [network-ID] [wildcard-mask] area [area-ID]" where network-ID is the network address for the directly connected network, wildcard-mask is the wildcard mask used to match the network, and area-ID is the OSPF area number (0 or otherwise);
+6. Exit global configuration mode by running "end";
+7. Save the configuration by running "write memory";
+
+Verify point-to-point connection:
+1. Run the command "show ip ospf neighbor" to view a list of OSPF neighbors, their states, and router IDs; you can also see whether neighboring routers are in the Full state;
+2. Run the command "show ip ospf interface" to view information about OSPF-enabled interfaces, including the designated router (DR) and backup designated router (BDR); for point-to-point interfaces, you should see the DR and BDR as the same router (usually the other end of the PtP link);
+3. Run the command "show ip route" to view the OSPF routing table, including whether the router has learned routes from its OSPF neighbor(s);
+
+-Broadcast (DR/BDR selection)?
+Broadcast network: a network in which multiple devices or routers are connected to a common network segment and can communicate directly with each other. Can also be thought of as a network that supports broadcast and multicast traffic. Broadcast networks operate at the data link layer of the OSI model, in which devices use MAC addresses and ARP to communicate with one another. Example: ethernet LANs. 
+
+There is a process of selecting a designated router (DR) and a backup designated router (BDR) on multi-access networks (AKA broadcast networks), e.g. ethernet LANs. OSPF uses a specific process to choose these routers on broadcast networks. The DR and BDR are responsible for maintaining OSPF adjacencies with all other routers on the network, while the other routers (DROthers) establish adjacencies only with the DR and BDR; this reduces traffic and overhead on the network. Correctly identifying the network type and configuring the DR/BDR selection process is important for ensuring efficient OSPF operation.
+
+Configure DR/BDR selection:
+1. Enter privileged exec mode by running "enable";
+2. Enter global configuration mode by running "configure terminal";
+3. Enable OSPF on the router by running "router ospf [process-ID]" where process-ID is a local identifier on the router for the OSPF process;
+4. Define OSPF areas on the router by running "network [network-ID] [wildcard-mask] area [area-ID]" where network-ID is the network address for the directly connected network, wildcard-mask is the wildcard mask used to match the network, and area-ID is the OSPF area number (0 or otherwise);
+5. Run the command "ip ospf network broadcast" to specify the network type, in this case a broadcast network;
+6. Exit global configuration mode by running "end";
+7. Save the configuration by running "write memory";
+
+Verify DR/BDR selection:
+1. Run the command "show ip ospf interface" to view information about OSPF-enabled interfaces, including the DR and BDR roles; for broadcast interfaces, you should see these roles assigned; this command will allow you to ensure that OSPF has successfully selected a DR and BDR: the DR manages OSPF comms and the BDR takes over if the DR fails;
+
+-Router ID?
+RID is a unique identifier used to distinguish OSPF routers within an OSPF routing domain. The RID is a 32-bit number, usually represented in dotted-decimal format. 
+
+Configure Router ID:
+1. Enter privileged exec mode by running "enable";
+2. Enter global configuration mode by running "configure terminal";
+3. Enable OSPF on the router by running "router ospf [process-ID]" where process-ID is a local identifier on the router for the OSPF process;
+4. Run the command "router-id [RID]" to set the router ID, where [RID] is a unique IP address within the OSPF routing domain; the RID can be a real interface IP address or any other unique IP address;
+5. Define OSPF areas on the router by running "network [network-ID] [wildcard-mask] area [area-ID]" where [network-ID] is the network address for the area, wildcard-mask is typically 0.0.0.0 for single area OSPFv2, and area-ID is the OSPF area ID (can be 0 [backbone area] or non-zero);
+6. Exit global configuration mode by running "end";
+7. Save the configuration by running "write memory";
+
+Verify Router ID:
+1. Enter privileged exec mode by running "enable";
+2. Run the command "show ip protocols" to view the RID for OSPF; the RID should be included in the output, which may be fairly long;
+3. Run the command "show running-config | section router ospf" to view the OSPF section of the running-config;
+
+-Describe the purpose, functions, and concepts of first hop redundancy protocols?
+A first hop redundancy protocol (FHRP) is a network protocol used to provide high availability and fault tolerance for devices which act as the default gateway for hosts in a subnet; ergo, by "network devices" we mean routers and/or L3 switches. The primary purpose of FHRPs is to ensure that network traffic can continue to flow even if the primary gateway device fails. FHRPs are commonly used in enterprise and/or datacenter environments to prevent network downtime.
+
+FHRPs work by allowing multiple routers/switches to share a single virtual IP and MAC address (so that ARP tables will not need to be updated), so subnet hosts can continue to use that IP even if one of the devices fails. One router/switch gets designated as the active/master router and the others go into standby mode. In some FHRPs, a router election process takes place to determine which router becomes the active router. Typically it's the router with the highest priority and IP address, but other factors may come into play. In GLBP, the assortment of FHRP devices are used for load balancing. 
+
+Preemption is a feature in FHRP that allows a router with a higher priority to take over as the active router if it becomes available after a failure or maintenance. 
+
+Examples: HSRP, VRRP, GLBP.
+
+IP SERVICES
+
+-Configure and verify inside source NAT using static and pools?
+
+Configure static NAT:
+1. Run the command "enable";
+2. Run the command "configure terminal";
+3. Run the command "ip nat inside source static [local-ip] [global-ip]" where local-ip is the address you want to map and global-ip is the outside address to which you want to map;
+4. Run the command "exit";
+5. Run the command "interface [interface-type] [interface-number]";
+6. Run the command "ip nat inside";
+
+Configure pool-based NAT:
+1. "enable";
+2. "configure terminal";
+3. "ip nat pool [pool-name] [start-ip] [end-ip] netmask [subnet-mask] type rotary" (rotary is a pool type);
+4. "exit";
+5. Create an access list to specify which internal hosts are subject to NAT; command is "access-list [acl-number] permit [source-ip] [wildcard-mask]";
+6. Apply NAT using the ACL and NAT pool; command is "ip nat inside source list [acl-number] pool [pool-name]";
+7. Apply NAT to an interface (see static NAT example above for command[s]);
+
+Verify static and pool NAT:
+1. To display NAT translation table, run "show ip nat translations";
+2. To check th configured NAT settings, run "show ip nat statistics";
+3. To confirm the NAT configuration on an interface, run "show ip nat inside [interface-type] [interface-number]";
+
+-Configure and verify NTP operating in a client and server mode?
+
+Configure NTP Server:
+enable
+configure terminal
+ntp master [stratum] 
+
+(where stratum is the stratum level for your NTP server; the stratum value indicates the reliability of the NTP server, with lower values being more reliable);
+
+Optional: specify the NTP Source Interface, which is the interface through which NTP packets will be sent:
+ntp source [interface-type] [interface-number]
+
+Configure NTP client:
+enable
+configure terminal
+ntp server [server-ip] 
+
+(where server-ip is the IP address of the NTP server with which you want to sync;
+
+Verify NTP status, including NTP synchronization and the status of NTP associations; this command will show information about the NTP servers the client is syncing with and the status of each association:
+show ntp status
+
+-Explain the role of DHCP and DNS within the network?
+DHCP: Dynamic Host Configuration Protocol, it is a technology that allows for IP addressing to be configured automatically by a DHCP server for its DHCP clients. First you have to configure the DHCP server, then define its IP addressing information it will serve out to its clients. The IP addressing information includes the obvious IP address, subnet mask, default gateway---but also other elements such as DNS server. DHCP information is served out by way of the DHCP Three-Way Handshake, in which the DHCP server and client send SYN, SYN/ACK, and ACK packets back and forth in order to set the client up with its IP addressing information. 
+
+DNS: Domain Name System, this is the protocol that handles mapping domain names to their corresponding IP addresses, e.g. archlinux.org maps out to the IP address 95.217.163.246. Less commonly, DNS can also map IP addresses to domain names. There is internal DNS and external DNS: internal refers to inside the LAN or organizational network, which should have its own authoritative DNS/name server. The internal DNS server should have records for all hosts within the network, however when it comes to the internet they most usually need help. 
+
+This is where DNS recursion/delegation comes into play. If the internal DNS server cannot resolve a name or IP address, it can delegate its DNS query to one of thirteen root servers (e.g. .com, .net, .edu) which serve the entire world at the top-level domain. These servers will in turn delegate the query to second-level domain servers (e.g. Yahoo.com, Google.com, Debian.org), and so on and so forth until the destination host is found.
+
+It should be noted that one of the key principles of DNS says that each individual host is responsible for its own name resolution (which is why they all maintain a resolver cache), however if they cannot do it then they can submit DNS queries, which often lead to recursion/delegation by the local DNS server.
+
+-Explain the function of SNMP in network operations?
+Simple Network Management Protocol, this is a technology that allows for centralized management of network assets, in contradistinction with the traditional approach of managing them individually using the local terminal or GUI. Especially in large networks, the ability to centralize and automate network administration tasks is hugely beneficial, as it would be time-consuming to have to configure, monitor, and troubleshoot on a per-device basis. 
+
+SNMP monitors and sends alerts ("traps" or "informs") if something is going on with a particular device, e.g. a router crashes. It can provide performance metrics. SNMP can also perform traffic analysis, including collecting traffic statistics. It can also keep an inventory of network devices. SNMP can also collect historical data and generate reports for trend analysis.
+
+-Describe the use of syslog features including facilities and levels?
+Syslog is a standard protocol for logging and transmitting messages within a network. These messages are categorized into two main subtypes: Facilities and Severity Levels.
+
+Facilities: represent the source of a syslog message. They help classify the origin of the log entry, making it easier to identify the network device that generated it. Syslog defines various facilities, and each facility is represented by a number. Common facilities:
+
+Kernel (0)
+User (1)
+Mail (2)
+Daemon (3)
+Authorization (4)
+Syslog (5)
+Printer (6)
+News (7)
+UUCP (8)
+Clock Daemon (9)
+Local0 through Local7 (16-23) [these are user-defined facilities that can be used for custom log messages]
+
+Severity Levels: AKA "severity" or "severity codes", these indicate the importance or urgency of a syslog message. Syslog defines eight standard severity levels, which are often referred to by their numeric values:
+
+Emergency (0)
+Alert (1)
+Critical (2)
+Error (3)
+Warning (4)
+Notice (5)
+Informational (6)
+Debug (7)
+
+When configuring syslog, admins can filter and route log messages based on both facility and severity level, e.g. log only critical and higher severity messages from "kernel", and log all informational messages from "user".
+
+More about Syslog:
+Flexible configuration, including how log messages are generated, processed, and forwarded. Centralized logging in a central syslog server. Security, including secure log transmission via TLS, SSH, etc. Syslog uses UDP be default, however it can be configured to use TCP as needed. Hierarchical logging is supported, which allows for easy organization and retrieval (example: "facility.severity"). As mentioned above, it is possible to customize log facilities based on the needs of your network. Timestamps are included in messages. Notifications and alerts can be configured for any conceivable network event. Syslog can be integrated with wider monitoring tools. Log rotation actions can be configured to prevent depletion of disk space. Filtering and routing of messages based on their content can also be configured to decide what to do with them.
+
+-Configure and verify DHCP client and relay?
+A DHCP client receives its IP addressing information from a DHCP server, whereas a DHCP relay agent forwards DHCP requests (which are broadcast packets that would otherwise be dropped by the router/switch) from one subnet to another in order for the client to reach the DHCP server. 
+
+Configure DHCP client:
+
+# Enter interface config mode;
+interface [interface-type] [interface-number]
+
+# Enable DHCP on the interface;
+ip address dhcp
+
+# Exit configuration mode;
+exit
+
+# Save the config;
+write memory
+
+Verify DHCP client config:
+
+# Show details about specified interface, including the assigned IP address if DHCP has been successfully configured;
+show interface [interface-type] [interface-number]
+
+# Show brief information about the interface;
+show ip interface brief 
+
+Configure DHCP relay agent:
+
+# Enter global config mode;
+configure terminal
+
+# Specify IP address of DHCP server to which you will forward DHCP requests;
+ip helper-address [DHCP-server-ip]
+
+# Exit config mode;
+exit
+
+# Save the config;
+write memory
+
+Verify DHCP/IP Helper:
+
+# Show IP Helper config;
+show ip helper
+
+You can also check logs or packet captures to verify DHCP requests are being forwarded to the DHCP server.
+
+-Explain the forwarding per-hop behavior (PHB) for QoS, such as classification, marking, queuing, congestion, policing, shaping?
+
+Forwarding Per-Hop Behavior (PHB) is an essential concept in QoS that defines the behavior of routers and switches when forwarding and processing packets based on their Differentiated Services Code Point (DSCP) markings. 
+
+Key components of PHB:
+
+Classification is the process of categorizing packets into different traffic classes based on specific criteria. This is done by examining the packet headers. Once the packets are classed, they can be subjected to different QoS treatments based on their assigned class. 
+
+Marking involves assigning DSCP values to packets as they enter the network. The DSCP values indicate the desired forwarding behavior for the packet. The DSCP field in the IP header is used for this purpose. Packets can be marked at the network edge (i.e. at ingress) based on their classification. 
+
+Queuing involves buffering packets at various points (e.g. interfaces, switches, routers) before being forwarded. QoS mechanisms can be employed to determine how packets are scheduled from these queues, e.g. higher-priority packets may be placed in a low-latency queue and dequeued ahead of lower-priority packets. 
+
+Congestion is managed by QoS by prioritizing certain types of traffic, ensuring high-priority traffic doesn't get dropped during peak traffic periods. Congestion management policies can include weighted fair queuing, random early detection (RED), and other techniques.
+
+Policing involves rate-limiting or controlling the rate at which packets are transmitted into the network. Packets exceeding this rate are dropped or remarked with a lower DSCP value. Policing can be used to enforce traffic profiles and prevent certain classes of traffic from consuming more than their allocated bandwidth.
+
+Shaping smooths the rate at which packets are sent into the network. It can be used to conform traffic to a specific rate or to prevent bursts of traffic from overwhelming the network. Shaping buffers packets and schedules their transmission to match the desired rate. 
+
+-Configure network devices for remote access using SSH?
+
+Configure SSH:
+
+# Enter privileged exec mode;
+enable
+
+# Create local user accounts (privilege level 15 means full access);
+username admin privilege 15 secret [password]
+
+# Generate encryption keys (this command will prompt you for the size of the key modulus, it is recommended to use 2048 bits or higher for security);
+crypto key generate rsa
+
+# Configure SSH parameters;
+ip ssh version 2 # Use SSHv2 for enhanced security;
+ip ssh time-out 120 # Set SSH inactivity timeout (in seconds);
+ip ssh authentication-retries # Limit authentication retries;
+
+# Configure VTY lines;
+line vty 0 4 # Only 5 VTY lines in this case, can be up to 15;
+transport input ssh # Allow SSH access only;
+login local # Use local usernames for authentication;
+
+# Set authentication method (local in this case);
+aaa new-model
+aaa authentication login default local
+
+# Save config;
+write memory
+
+# Test SSH connectivity;
+Use an SSH client (e.g. PuTTY, SecureCRT, or built-in SSH client) to connect to the device.
+
+-Describe the capabilities and functions of TFTP/FTP in the network?
+FTP is File Transfer Protocol, whereas TFTP is Trivial FTP. FTP is a simple protocol for sharing files over a network, often used for transferring configuration (.cfg) files to switches and routers. TFTP is even simpler and more lightweight than FTP. 
+
+Unfortunately neither one of these protocols is very secure, hence the existence of SFTP and/or FTPS, which are integrated with SSH and SSL/TLS, respectively. 
+
+TFTP: simple to implement, but does not provide authentication capabilities or user-level access control. Anyone with access to the TFTP server can read or write files. TFTP has minimal overhead, uses UDP for transport. Lacks directory listings and file deletion capabilities. Commonly used for transferring firmware or config files to routers, switches, and IP phones. It is also used for network booting (e.g. PXE boot) to load an operating system from a TFTP server. TFTP operates on UDP port 69. TFTP is often used in embedded systems, or for network bootstrapping.
+
+Network bootstrapping:
+
+FTP: more features than TFTP; supports authentication, directory listings, file upload, download, deletion, and renaming. Supports multiple authentication methods, including username and password, FTPS, SFTP, etc. FTP allows users to list the contents of directories on the server. FTP clients and servers are widely available on various OSes, including Windows, Mac, Linux. FTP can operate in active and passive modes to conform to network requirements, including security. FTP operates on TCP ports 20 (control) and 21 (data); SFTP uses port 22 (SSH). FTP can be used in both interactive and scripted scenarios.
+
+SECURITY FUNDAMENTALS
+
+-Define key security concepts (threats, vulnerabilities, exploits, and mitigation techniques)?
+
+Threat: anyone or anything that poses a risk to the information security of an individual or organization. A threat can obviously be a hacker, but it can also be malware written by hackers that acts in a mostly autonomous fashion, e.g. a virus that was set loose on the internet and now acts in an independent and self-replicating fashion. Furthermore, a threat can also reside inside the network, e.g. an employee who has just been laid off and decides to use their last remaining hours of access to steal proprietary information from the company.
+
+Vulnerability: these come in many shapes and sizes. A vulnerability can be a bug in the organization's code, or it can be a weakness in a human member of the organization that can be leveraged to perform an exploit. Another example is an unnecessarily open port on one of the network servers which a hacker might use to launch an attack. When an attacker uses a vulnerability to launch an attack, that is called an exploit.
+
+Exploit: an instance of capitalizing on a vulnerability in order to launch an attack on an individual or organization. 
+
+Mitigation technique: there exist many of these, but what they all have in common is that they are used to lessen the probability of an exploit. Mitigation can also be thought of as risk or vulnerability management. 
+
+Examples: security awareness training for members of the organization, firewalls, SIEM, having or outsourcing a SOC team, physical security applications (cameras, fences, security guards), etc.
+
+-Describe security program elements (user awareness training, and physical access control)?
+
+User awareness training: as humans are generally more easily exploited than technological elements of an organization, it is important that members of an organization have at least a basic understanding of infosec principles as well as the current threat landscape. 
+
+Physical access control: should include many things, depending on the topology of the office or datacenter. Should probably include fences, security guards, electronic locks with scanners, cameras, maybe a vestibule, etc.
+
+-Configure and verify device access control using local passwords?
+
+Configure access control:
+
+# Enter config mode;
+enable
+
+# Enter global config mode;
+configure terminal
+
+# Create a username and password;
+username [username] privilege 15 secret [password]
+
+# Encrypt passwords;
+service password-encryption
+
+# Configure Line VTY access;
+
+# Configure five virtual terminal lines;
+line vty 0 4
+
+# Ensure local usernames and passwords are used for authentication;
+login local
+
+# Allow SSH access only;
+transport input ssh
+
+# Exit config mode;
+exit
+
+# Save config;
+write memory
+
+Verify access control:
+
+One way is to simply try logging onto the device using the credentials you configured. 
+
+Alternatively:
+
+# View running-config, pipe for usernames and their respective settings;
+show running-config | include username
+
+-Describe security password policies elements, such as management, complexity, and password alternatives (MFA, certificates, biometrics)?
+
+Management: obviously passwords should not be shared. In 2023, they should also probably be at least 40 characters long, though the consensus of the infosec community seems to be that password complexity is not nearly as important of a factor anymore as password length. Passwords should be changed at least every 2-3 months, which is a measure that is built into Windows and perhaps other OSes. Passwords should be (and are) stored as hashes instead of plaintext, in case an attacker gains access to the password file(s). Passwords should not be reused across multiple accounts or platforms. 
+
+Complexity: depends who you ask honestly, according to ChatGPT it is still recommended to have complex passwords to make them less predictable, and hence less vulnerable to dictionary or brute-force attacks. However, I spend time around the infosec community online and they are not so focused on password complexity anymore as they are on length. 
+
+Password alternatives---
+
+MFA: multi-factor authentication, involves the use of two or more types of authentication, which are usually defined as 1) something you have, 2) something you know, 3) something you are. A username-password combo is an example of something you know, so this method typically gets used in addition to an authenticator app passcode, a biometric scan, or a key-card/badge scan. 
+
+Certificates: highly secure alternative to traditional passwords. Certificates are issued and managed by a trusted third-party entity called a Certificate Authority (CA). The CA verifies the identity of the certificate holder and binds their public key to the certificate. 
+
+Certificates are typically associated with a pair of cryptographic keys: public key and private key. The public key is included in the certificate and is freely shared, whereas the private key is kept secret and secure. The private key is used to create a digital signature for data, such as authentication requests or encrypted communication. The signature is unique to the private key and ensures data integrity and authenticity. 
+
+Certificates can be stored in various places, including hardware tokens, software-based key stores, or directly on devices such as smartphones and smartcards. 
+
+Advantages of certificates over passwords: superior security (even if the certificate gets stolen the attacker still doesn't have the private key), strong authentication, eliminates passwords, mitigates phishing attacks, streamlines authentication (user only needs the one certificate versus many credential combinations), non-repudiation, encryption (certificates can be used for encryption), granular access control (certificates can be associated with specific roles or permissions, allowing for fine-grained access control).
+
+Biometrics: these are identifiers that exist naturally in a human body, e.g. fingerprints, retina, etc. Some organizations choose to use biometric scanners for added security.
+
+-Describe IPsec remote access and site-to-site VPNs?
+
+IPsec remote access: the use of IPsec protocols and technologies to secure remote connections to a private network or resources over the internet or another untrusted network. IPsec is a suite of protocols which provides mechanisms for authentication, encryption, and integrity verification. IPsec is often used in combination with VPNs, which create encrypted tunnels over unsecure networks, to access private networks as if they were on-premise. Remote users can run IPsec software to establish secure connections. Remote access gateways or concentrators are the entry points to the private network, they receive and authenticate incoming IPsec connections from remote clients. IPsec provides assurance about data origin. 
+
+IPsec remote access typically uses the following authentication and security protocols: PSK, digital certificates, authentication header (AH), encapsulating security payload (ESP), internet key exchange (IKE).
+
+Site-to-site VPN: allows geographically dispersed networks to securely connect with one another over the internet. Unlike remote access VPNs, which allow individual users/devices to connect to a central network, S2S VPNs facilitate network-to-network communication, i.e. entire networks and/or subnets are interconnected. S2S VPNs often use IPsec and TLS. Each network involved in the S2S VPN has a gateway device or VPN concentrator that manages the VPN connection; these devices encrypt and decrypt data and route it between networks. 
+
+Each network must have a unique set of IP addresses to ensure proper routing within the VPN tunnel. Subnet and routing information is usually exchanged between the gateways to facilitate routing. S2S VPNs often use pre-shared keys or digital certificates to authenticate the participating networks and ensure that only authorized sites can establish a connection. 
+
+S2S VPNs can be configured in various topologies: hub and spoke, full mesh, partial mesh, etc. 
+
+Other use cases: datacenters, cloud integration, partner networks, remote devices.
+
+-Configure and verify access control lists?
+
+# Access global config mode;
+enable
+configure terminal
+
+# Create an extended ACL;
+ip access-list extended [ACL-name] # You can also use an ACL number;
+
+# Define ACL rules (example);
+permit tcp 192.168.1.1 0.0.0.255 any eq 80
+deny ip any host 10.0.0.1
+
+# Apply ACL to an interface (inbound or outbound);
+interface [INTERFACE]
+ip access-group [ACL-name] in
+
+# Exit config mode;
+exit
+
+# Save config;
+write memory
+
+Verify ACL config;
+
+# View ACLs;
+show access-lists [ACL-name]
+
+# View ACL applied to interface;
+show ip interface [INTERFACE]
+
+# Monitor ACL hits;
+show access-lists [ACL-name]
+
+*After applying an ACL, you may use ping and/or other network utilities (tracert, etc.) to test it is working as intended;
+
+*Check for ACL matches in Log or Syslog;
+
+-Configure and verify L2 security features (DHCP snooping, dynamic ARP inspection, and port security)?
+
+CONFIGURE DHCP SNOOPING---
+
+# Access global config mode;
+enable
+configure terminal
+
+# Enable DHCP snooping;
+ip dhcp snooping
+
+# Enable DHCP snooping on specific VLANs;
+ip dhcp snooping vlan [VLAN-ID]
+
+# Define DHCP Snooping Trust interface;
+interface [INTERFACE]
+ip dhcp snooping trust
+
+# Exit config mode;
+end
+
+# Save config;
+write memory
+
+VERIFY DHCP SNOOPING---
+
+# View DHCP snooping information;
+show ip dhcp snooping
+
+# View DHCP snooping status on specific interfaces;
+show ip dhcp snooping interface [INTERFACE]
+
+# Verify the DHCP snooping binding database;
+show ip dhcp snooping binding
+
+# Check DHCP snooping statistics;
+show ip dhcp snooping statistics
+
+CONFIGURE DYNAMIC ARP INSPECTION---
+
+# Access global config mode;
+enable
+configure terminal
+
+# Enable DHCP snooping (prereq for DAI globally, if it's not already enabled);
+ip dhcp snooping
+
+# Enable dynamic ARP inspection;
+ip arp inspection
+
+# Enable DAI on specific VLANs;
+ip arp inspection vlan [VLAN-ID]
+
+# Define the trusted interfaces;
+interface [INTERFACE]
+ip arp inspection trust
+
+# Exit config mode;
+exit
+
+# Save config;
+write memory
+
+VERIFY DHCP SNOOPING---
+
+# Display DAI information;
+show ip arp inspection
+
+# View DAI status on specific interfaces;
+show ip arp inspection interface [INTERFACE]
+
+# Check DAI binding database;
+show ip arp inspection binding
+
+# View DAI statistics;
+show ip arp inspection statistics
+
+CONFIGURE PORT SECURITY---
+
+# Access global config mode;
+enable
+configure terminal
+
+# Enter interface config mode;
+interface FastEthernet0/1 # Example;
+
+# Enable port security;
+switchport port-security
+
+# Set the maximum number of allowed MAC addresses;
+switchport port-security maximum 2
+
+# Specify the violation mode;
+# protect = no action taken, but violation counter increments;
+# restrict = violating traffic is dropped, violation counter increments;
+# shutdown = port is put into error-disabled state;
+switchport port-security violation [protect|restrict|shutdown]
+
+# Exit config mode;
+end
+
+# Save config;
+write memory
+
+VERIFY PORT SECURITY---
+
+# Display port security information;
+show port-security [interface [INTERFACE]]
+
+# View port security violation counters;
+show port-security [interface [INTERFACE]] | include Violation
+
+# Check port security MAC address table;
+show port-security address
+
+-Compare authentication, authorization, and accounting concepts?
+
+Authentication: process of verifying someone or something actually is who or what they claim to be.
+
+Authorization: (not) granting access to someone or something based on who or what they actually are. 
+
+Accounting: also accountability; ensuring that someone or something is held responsible for any actions taken. As a prerequisite, we must know at all times who has access to which resources, and what actions they have taken against those resources. This is where logs and databases come into play.
+
+-Describe wireless security protocols (WPA, WPA2, WPA3)?
+
+WPA: Wi-Fi Protected Access, now deprecated. Originally designed to replace WEP as that was even less secure. WPA was in turn also designed as a temporary wireless protocol while WPA2 was being developed. WPA uses TKIP, supports various authentication methods (PSK, 802.1x), 
+
+WPA2: uses AES (Advanced Encryption Standard), supports both PSK and 802.1x authentication. This protocol was considered quite secure for many years, but more recently security researchers have identified vulnerabilities in it (e.g. KRACK). 
+
+WPA3: in 2023, this is the latest wireless protocol with the best security. Supports SAE (Simultaneous Authentication of Equals) for stronger, password-based authentication and forward secrecy, which protects past communications even if a password is compromised. Resistant to offline dictionary attacks, which makes it more secure against brute-force and similar attacks. Individualized data encryption ensures that each client on a network has its own encryption key. WPA3-Personal mode introduces better protection against weak passwords by using the Dragonfly protocol for password-based authentication. WPA3-Enterprise mode offers stronger security for larger networks with 802.1x authentication. WPA3 is the recommended choice for securing Wi-Fi networks, especially for new installations. 
+
+-Configure and verify WLAN within the GUI using WPA2 PSK?
+
+CONFIGURE WLAN USING WPA2 PSK---
+
+# Access the Cisco WLC GUI;
+Open a web browser and enter the IP address or hostname of your Cisco Wireless LAN Controller.
+
+# Log in;
+
+# Navigate to WLAN Configuration, it may be under the Wireless or Security tabs;
+
+# Create a new WLAN profile for your network (if it doesn't already exist);
+
+# Configure the WLAN settings, including WLAN name, VLAN, and SSID;
+
+# In the WLAN security settings, select WPA2 as the security method;
+
+# Choose WPA2-PSK as the WPA version, then enter a strong PSK (pre-shared key) in the PSK Passphrase field;
+
+# Select AES as the encryption method for WPA2-PSK;
+
+# Configure other WLAN settings as needed, including QoS profiles, VLAN mappings, etc.;
+
+VERIFY WLAN WITH WPA2-PSK---
+
+# Save the configuration changes you made within the Cisco WLC GUI;
+
+# Test connectivity;
+Connect a Wi-Fi device to the newly configured WLAN using the SSID and PSK. Ensure the device can connect successfully.
+
+# Monitor WLAN status;
+In the Cisco WLC GUI, navigate to the WLAN status or monitoring section to check the status of the WLAN. Verify that clients are successfully connecting.
+
+# Check WLAN statistics;
+Monitor WLAN statistics---such as client associations, disassocations, and traffic---to ensure the WLAN is functioning as expected.
+
+# Security monitoring;
+Regularly monitor the security status of your WLAN to ensure that the WPA2-PSK settings remain in place and provide the necessary security. 
+
+AUTOMATION AND PROGRAMMABILITY
+
+-Explain how automation impacts network management?
+If properly configured, automation can be hugely beneficial to netadmins and endusers alike. For instance, you might have a vast SDN (software-defined networking) network with many devices, which you would otherwise have to manually configure one-by-one if not for SDN. In addition to configuring them, to access their logs you would also need to log onto the devices one by one and manually issue the commands needed to access and parse the logs. 
+
+Automation ensures consistent network configurations across devices, reducing the probability of human error. Templates and scripts are used for this purpose. Network devices can be rapidly deployed, provisioned, and configured.
+
+Automation tools often include version control, allowing netadmins to track changes made to configurations and roll back as needed. Automation can enforce compliance with network policies and standards, reducing the risk of non-compliance and security vulnerabilities.
+
+Automation tools can provide real-time visibility into network performance, including traffic flow, device health, and security events. Automated alerting mechanisms can detect anomalies and critical events, allowing administrators to respond promptly to issues. 
+
+Automation can trigger predefined responses to certain events or issues, such as reconfiguring devices to mitigate security threats or optimizing network performance. 
+
+Automation simplifies the process of scaling networks and load balancing traffic across devices. It can automatically allocate resources as needed to meet demand. 
+
+Automation tools can perform regular audits of device configurations to ensure they adhere to best practices and security policies.
+
+Automation allows for self-healing networks where devices can detect and respond to failures autonomously, reducing downtime. 
+
+Automation, combined with analytics, can provide insights into network behavior and trends, helping organizations make informed decisions about capacity planning and optimization. 
+
+Automation generates detailed reports on network performance, security incidents, and configuration changes, which can be crucial for compliance and troubleshooting.
+
+Automation enables orchestration of complex workflows and tasks, allowing for the seamless deployment of multi-tier applications and services.
+
+Automation technologies are often integrated with software-defined networking (SDN) solutions, enabling centralized network control and programmable network resources. 
+
+Automation can enforce security policies, such as access controls, firewall rules, and encryption, in a consistent and timely manner.
+
+Automation allows netadmins to write scripts and code to interact with Cisco devices using APIs and programmable interfaces, enhancing customization and control.
+
+Cisco provides many automation tools and solutions, such as Cisco DNA Center, Cisco NSO (Network Services Orchestrator), and Cisco DevNet.
+
+-Compare traditional networks with controller-based networking?
+In traditional networks, the devices are individually managed. You would have to either remote into the device or connect using a cable, traditionally a serial/console cable, in order to configure it or access its information. 
+
+In controller-based networking (e.g. SDN), network devices are managed from a central device, called the controller. You can easily configure all or many devices from this controller, which saves admins a lot of time and effort. 
+
+Additionally, if you have Syslog configured on the network, then there is also a central server where logs from network devices are aggregated. Syslog can be configured to generate alerts when certain events occur on the network, which makes it much easier to respond to events than if admins had to go through each device's logs to detect a possible incident.
+
+TRADITIONAL NETWORKS
+
+Decentralized control: individual network devices operate independently and make local decisions re. traffic forwarding, security, and management.
+
+Manual configuration: config and management of devices are typically manual and device-centric, often requiring extensive CLI interactions.
+
+Scalability challenges: as networks grow, manual config and management become complex and time-consuming, leading to scalability challenges.
+
+Limited automation: automation in traditional networks is limited to simple scripting and batch processing, with less comprehensive automation and orchestration.
+
+Complex troubleshooting: TSing network issues can be time-consuming, as problems often need to be identified and resolved on individual devices.
+
+Security and policy enforcement: enforced on individual devices, making it challenging to maintain consistent security policies across the network.
+
+CONTROLLER-BASED NETWORKS
+
+Centralized control: controller-based networks centralize network control and management, allowing for a unified view and control of network devices from a central controller.
+
+Programmability and automation: Network config and management are highly automated and programmable through the controller, reducing the need for manual, device-by-device configuration.
+
+Scalability and efficiency: controller-based networks are more scalable and efficient, particularly for large and complex networks, as changes and updates can be applied uniformly across the network. 
+
+Simplified troubleshooting: TSing is simplified with centralized monitoring, visibility, and the ability to quickly identify and address issues from a central point. 
+
+Consistent security policies: security policies and access controls can be consistently enforced across the network from the central controller, enhancing security.
+
+Software-defined networking (SDN) integration: controller-based networks are often closely associated with SDN, enabling programmable, software-defined network architectures that can adapt to changing requirements. 
+
+Application awareness: controller-based networks can provide application visibility and control, optimizing network resources for specific applications and services.
+
+Policy-based management: network policies and configurations can be defined based on specific business requirements and easily applied across the network. 
+
+Orchestration: controller-based networks allow for network orchestration, enabling the automated provisioning and scaling of network resources for applications and services.
+
+-Describe controller-based, software-defined architecture (overlay, underlay, and fabric)?
+
+Controller-based SDN centralizes the control plane; it also abstracts and separates the data plane. The controller communicates with both the underlay and overlay networks to provide a comprehensive view of the network. 
+
+SDN controller: central component of architecture, responsible for controlling and managing the network devices and traffic. Communicates with network devices in the underlay network using southbound APIs (Application Programming Interfaces) to configure them and gather information. Also communicates with the overlay network, which often includes SDN applications, services, and orchestrators, using northbound APIs. Collects information about the network state, policies, and requirements and uses this information to make centralized decisions regarding network traffic and configuration. 
+
+Underlay: forms the physical infrastructure of the network, consisting of routers, switches, and other network devices. Responsible for forwarding traffic between network nodes based on standard routing and switching protocols. Provides the foundation for the overlay network, allowing it to function on top of the physical infrastructure.
+
+Overlay: logical or virtual network that operates on top of the physical underlay network. Abstracts the physical network infrastructure and enables the creation of virtual network services and topologies. Overlay networks can be created to isolate specific applications or services from the underlying physical network, providing flexibility and customization.
+
+Fabric: a logical network that encompasses the entire network, including the underlay and overlay networks. Designed to simplify network management by abstracting the complex physical infrastructure and providing a unified, programmable view of the network. Allows for the automation of network provisioning, optimization, and troubleshooting across both the physical and virtual network elements. 
+
+SDN applications and services: run on top of the SDN controller and provide various network functions, e.g. load balancing, firewalling, traffic optimization, and network monitoring. These apps and services can use the controller's centralized view of the network to make dynamic decisions and adapt to changing conditions. 
+
+-Separation of control plane and data plane?
+
+Control plane is the higher-level plane in SDN, which is integrated with the controller and software used for network management and monitoring. Data plane is below the control plane but above the physical/infrastucture plane, and it governs data transmission and processing. Separating these planes allows for much more centralized control and network automation, which is a huge improvement on traditional networking methodologies. 
+
+CONTROL PLANE: 
+
+Responsible for making decisions about how network data should be handled. Determines the best paths for data traffic, sets up routing and forwarding tables, manages network protocols. Network devices control information to build and maintain the routing tables and make decisions about how to forward traffic. Functions include routing protocols (OSPF, BGP), network management, and security policy enforcement. Typically implemented in software and runs on the network device's control processor (CPU). 
+
+DATA PLANE: 
+
+AKA "forwarding plane", responsible for the actual forwarding of network traffic based on the instructions received from the control plane. Here, network devices perform the actual packet forwarding, switching, and routing. They make decisions based on the preconfigured routing and forwarding tables set by the control plane. Data plane functions are highly optimized for fast packet processing and may involve hardware-based forwarding, such as ASICs. Network devices (e.g. routers and switches) are designed to be primarily data plane devices, responsible for forwarding packets based on control plane instructions. 
+
+ADVANTAGES OF SEPARATION: flexibility, scalability, centralization, resilience, simplified network management. 
+
+-Northbound and Southbound APIs?
+
+NORTHBOUND APIs: these are in the Data Plane and pointing to the control plane. They allow Data Plane devices to communicate with the controller and software that runs in the Control Plane. This allows for transmission of local device data to the CP, such as logs or configuration details.
+
+The interface between the SDN controller (CP) and SDN applications, network services, and management systems. Allows external applications and services to communicate with the SDN controller, request network services, provide network policies, and gather network information. NB API provides a way for developers to create applications and services that leverage the SDN infrastructure. These applications can be used for network orchestration, automation, networking monitoring, and various network services. NB APIs enable communication between SDN controllers and higher-level applications that can make use of the centralized control and programmability of the SDN infrastructure. 
+
+SOUTHBOUND APIs: these reside in the Control Plane and point to the Data Plane. This type of API allows for high-level CP instructions to be translated into runnable configuration instructions for Data Plane devices.
+
+AKA "southbound interface", the interface between the SDN controller and the network devices in the DP. Allows SDN controller to communicate with and instruct network devices, configure their forwarding tables, making flow control decisions, and managing the network's data plane operations. SB API enables SDN controller to push network policies, routes, and instructions to the devices, ensuring they operate according to desired network config. Common SB APIs include OpenFlow, NETCONF, etc.
+
+NB and SB APIs are terms used to describe the interfaces and communication channels that allow different components of the SDN architecture to interact with each other. These APIs play a crucial role in enabling the separation of control plane and data plane and facilitating centralized network management. 
+
+-Compare traditional campus device management with Cisco DNA Center enabled device management?
+
+TRADITIONAL CAMPUS DEVICE MANAGEMENT---
+
+Device-centric management: focuses on managing individual network devices in a device-centric manner. Netadmins typically use the CLI on each device for configuration and monitoring.
+
+Manual configuration: changes are often implemented manually and may involve repetitive, device-specific configurations.
+
+Isolated network services: services and features like security policies, QoS, and segmentation are managed on a per-device basis, leading to potential inconsistencies and complexity. 
+
+Limited visibility: netadmins may have limited visibility into the overall network health, security posture, and performance. TSing issues often requires checking individual devices.
+
+CISCO DNA CENTER-ENABLED DEVICE MANAGEMENT---
+
+Centralized management: platform for entire network, with unified view of network devices and services. 
+
+Automation and orchestration: uses these to simplify and streamline network configuration and management. Netadmins can automate device provisioning, config deployments, and policy application.
+
+Policy-based management: allows netadmins to define and enforce network-wide policies for security, QoS, and access control.
+
+Advanced analytics: insights into network performance, security threats, user behavior. 
+
+Security integration: DNA center integrates with Cisco's security solutions, providing threat detection, segmentation, and response capabilities. 
+
+Simplified troubleshooting: through centralized visibility and diagnostic tools, which can pinpoint network issues. 
+
+Scalability: DNA Center is designed for scalability.
+
+Integration with SD-Access: DNA center is closely integrated with Cisco Software-Defined Access (SD-Access), enabling intent-based networking and automation of end-to-end network services.
+
+Campus Area Networks are around the size of a college campus. They entail many redundant access points for seamless roaming, as well as probably several antennas for outdoor wireless-signal propagation. 
+
+-Describe characteristics of REST-based APIs (CRUD, HTTP verbs, and data encoding)?
+
+REST-based API: REpresentational State Transfer API, a set of rules and conventions for building and interacting with web services. A widely used architectural style for designing networked applications and web services, with a focus on simplicity, scalability, and interoperability. REST APIs are commonly used in the development of web and mobile applications to enable communication with server-side services. 
+
+KEY CHARACTERISTICS OF REST APIs: Statelessness, resources, HTTP methods, uniform interface, stateless communication, client-server architecture, layered system, self-descriptive messages.
+
+CRUD: Create, Read, Update, Delete; four basic operations that can be performed on data in many database systems and is often used as a fundamental framework in REST APIs for managing resources.
+
+Create (POST): used to add a new resource to the system.
+
+Read (GET): used to retrieve information or data from the system.
+
+Update (PUT/PATCH): used to modify or update existing resources.
+
+Delete (DELETE): used to remove a resource from the system.
+
+HTTP verbs: standardized actions or commands that can be used to specify the desired operation to be performed on a resource when making HTTP requests. Common HTTP verbs used in REST APIs not mentioned above: OPTIONS, HEAD, CONNECT, TRACE. HTTP verbs, along with URIs and status codes, form the core of the HTTP protocol and are essential for defining how clients interact with resources in RESTful web services. 
+
+Data encoding: the process of representing data in a specific format for transmission between a client and a server. The choice of data encoding format is crucial for ensuring that data can be accurately and efficiently transferred and interpreted by both parties. 
+
+Common data encoding formats: JSON (JavaScript Object Notation), XML, Form Data, Binary data, MessagePack, Protocol Buffers. 
+
+-Recognize the capabilities of configuration management mechanisms---Puppet, Chef, Ansible?
+
+Configuration management mechanism: used in IT and DevOps for managing and provisioning infrastructure, automating repetitive tasks, and ensuring consistent configurations across a network. 
+
+PUPPET---
+
+Declarative language: uses this to describe the desired state of infrastructure. You define what the system should look like, Puppet ensures it matches that state. 
+
+Cross-platform: Puppet supports a wide range of OSes and platforms.
+
+Resource abstraction: abstracts system resources (e.g. users, packages, services) into a uniform format, allowing you to manage them consistently.
+
+Configuration as code: Puppet enables you to express infrastructure as code, making it easy to version, test, and collaborate on configuration definitions. 
+
+Node classification: Puppet allows you to classify nodes into groups and apply configurations based on node type, simplifying management of large infrastructures. 
+
+Ecosystem: Puppet has a vast ecosystem of modules and pre-built configurations available in the Puppet Forge, which can be reused to speed up configuration tasks.
+
+CHEF--- 
+
+Infrastructure as code: Chef follows the IaC paradigm, allowing you to describe the desired state of your infrastructure using Ruby-based code.
+
+Cross-platform: Chef supports multiple platforms and cloud providers, offering flexibility in managing diverse environments.
+
+Resource-driven: Chef uses resources to define the elements of your infrastructure you want to manage. Resources can be configured, and Chef ensures the conform to the desired state. 
+
+Cookbooks: collections of recipes and resources that can be shared, reused, and maintained. They help in organizing and packaging configuration code. 
+
+Automated testing: provides tools like Test Kitchen and InSpec for testing infrastructure code, ensuring predictability and stability.
+
+Community and Ecosystem: Chef community and Chef Supermarket offer many pre-built cookbooks and resources.
+
+ANSIBLE--- 
+
+Agentless: doesn't require software to be installed on target systems. Communicates with remote systems using SSH or WinRM.
+
+Simple config: playbooks are written in YAML, making them easy to read and write. Playbooks describe the desired state of the system and the tasks needed to achieve it.
+
+Orchestration: enables the coordination of tasks across multiple servers or devices. 
+
+Extensibility: modules can be custom-built or obtained from the Ansible Galaxy.
+
+Role-based configuration: uses roles to organize tasks and configurations, making it easy to manage complex setups and reuse code.
+
+Integration: can be integrated with other tools and platforms, e.g. cloud providers, containers, and monitoring systems, to create end-to-end automation workflows. 
+
+-Recognize components of JSON-encoded data?
+
+JSON: JavaScript Object Notation, a lightweight data-interchange format used for representing structured data. JSON data consists of key-value pairs and structured data types. 
+
+OBJECTS: an unordered collection of key-value pairs enclosed in curly braces {}. Each key is a string enclosed in double quotes, followed by a : and its corresponding value. Keys within an object must be unique. 
+
+ARRAYS: an ordered list of values enclosed in square brackets []. Elements within an array can be of any data type, including objects, arrays, strings, numbers, booleans, null, etc. Elements are separated by commas.
+
+STRING: a sequence of characters enclosed in double quotes. Strings can contain alphanumeric characters, special characters, and whitespace. 
+
+NUMBER: integer or floating-point value. Can be written with or without a decimal point or exponent notation. 
+
+BOOLEAN: in JSON, this can be true or false. Booleans are used to represent logical values. 
+
+NULL: a null or empty value. Often used to indicate the absence of a value or an unknown value. 
+
+JSON data can be hierarchical, allowing objects and arrays to be nested within each other. This flexibility makes JSON a suitable format for structuring and exchanging data between different systems, and it is commonly used in webapps, APIs, and data storage. JSON is the most popular data interchange format for software development. It is commonly used in conjunction with RESTful APIs for data transfer between clients and servers.
